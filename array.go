@@ -93,3 +93,55 @@ func containsDuplicate(nums []int) bool {
 	}
 	return false
 }
+
+// leetcode subject: explore/interview/card/top-interview-questions-easy/1/array/25/
+// require:
+// time-complexity: O(n)
+// space-complexity: O(1) , no exceptional space
+func singleNumber(nums []int) int {
+
+	// leetcode's some god's solution
+	// keynote:
+	// the input only one element occurs one, each others occurs twice
+	// 1 ^ 1 ^ 3 = 3
+	var res int
+
+	for _,v := range nums {
+		res ^= v
+	}
+
+	return res
+
+	// second time
+	//var result,isDuplicate int
+	//l := len(nums)
+	//
+	//for i:=0; i<l; i++ {
+	//	isDuplicate = 0
+	//	for j := 0; j < l; j++ {
+	//		if nums[j] == nums[i] {
+	//			isDuplicate += 1
+	//		}
+	//	}
+	//
+	//	if isDuplicate == 1 {
+	//		result = nums[i]
+	//		break
+	//	}
+	//}
+
+	// first time
+	//var result int
+	//m := make(map[int]int, len(nums))
+	//
+	//for _,v := range nums {
+	//	m[v] += 1
+	//}
+	//
+	//for i,k := range m {
+	//	if k == 1 {
+	//		return i
+	//	}
+	//}
+	//return result
+}

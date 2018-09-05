@@ -1,8 +1,8 @@
 package main
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func TestRemoveDuplicates(t *testing.T) {
@@ -43,21 +43,21 @@ func TestMaxProfit(t *testing.T) {
 }
 
 func TestRotate(t *testing.T) {
-	input := []int{1,2,3,4,5,6,7}
+	input := []int{1, 2, 3, 4, 5, 6, 7}
 	k := 2
-	expected := []int{6,7,1,2,3,4,5}
+	expected := []int{6, 7, 1, 2, 3, 4, 5}
 	rotate(input, k)
 
 	if !reflect.DeepEqual(input, expected) {
-		t.Errorf("expected the rusult of : %v to be %d but instead got %d!", []int{1,2,3,4,5,6,7}, expected, input)
+		t.Errorf("expected the rusult of : %v to be %d but instead got %d!", []int{1, 2, 3, 4, 5, 6, 7}, expected, input)
 	}
 }
 
-func TestContainsDuplicate(t *testing.T)  {
-	input1 := []int{1,2,3,1}
+func TestContainsDuplicate(t *testing.T) {
+	input1 := []int{1, 2, 3, 1}
 	e1 := containsDuplicate(input1)
 
-	input2 := []int{1,2,3,4}
+	input2 := []int{1, 2, 3, 4}
 	e2 := containsDuplicate(input2)
 
 	if !e1 {
@@ -67,6 +67,13 @@ func TestContainsDuplicate(t *testing.T)  {
 	if e2 {
 		t.Errorf("expected the result of %v to be false but insteaded got %v!", input2, e2)
 	}
+}
 
-
+func TestSingleNumber(t *testing.T) {
+	input := []int{1, 2, 3, 1, 2}
+	output := singleNumber(input)
+	expected := 3
+	if output != expected {
+		t.Errorf("expected the result of %v to be %d but insteaded got %d!", input, expected, output)
+	}
 }
