@@ -1,0 +1,16 @@
+# ide project files
+.idea
+.vscode
+
+# version control should not be committed to you application's source control
+.git
+.svn
+
+# windows thumbnail cache
+Thumbs.db
+
+# Mac DS_Store Files
+.DS_Store
+
+
+
