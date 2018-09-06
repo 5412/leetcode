@@ -145,3 +145,84 @@ func singleNumber(nums []int) int {
 	//}
 	//return result
 }
+
+
+// leetcode: explore/interview/card/top-interview-questions-easy/1/array/26/
+
+func intersect(nums1 []int, nums2 []int) []int {
+	//output := make([]int, 0)
+	var output []int
+	//var m map[int]int
+	m := make(map[int]int, 0)
+	for _,v1 := range nums1 {
+		m[v1] += 1
+	}
+
+	for _,v := range nums2 {
+		if m[v] > 0 {
+			output = append(output, v)
+			m[v]--
+		}
+	}
+	return output
+}
+
+func plusOne(digits []int) []int {
+	//var res []int
+	l := len(digits)
+	for i:=l; i>0; i-- {
+		tail := digits[i-1]
+		tail++
+		switch tail {
+		case 10:
+			tail = 0
+		}
+		digits[i-1] = tail
+
+		if tail > 0 {
+			break
+		}
+		// last loop
+		if i == 1 {
+			digits = append([]int{1}, digits...)
+		}
+	}
+
+	return digits
+
+
+
+
+
+	// Don't work while the digits is to large
+	//number := 0
+	//for _,v := range digits  {
+	//	number = number *  10 + v
+	//}
+	//number++
+	//output := make([]int,0)
+	//for  {
+	//	if number == 0 {
+	//		break
+	//	}
+	//	digit := number % 10
+	//	output = append([]int{digit}, output...)
+	//	number = (number - digit) / 10
+	//}
+	//return output
+}
+
+// leetcode: explore/interview/card/top-interview-questions-easy/1/array/28/
+func moveZeros(nums []int) {
+	l := len(nums)
+	for i := l - 1; i >= 0; i-- {
+		if nums[i] == 0 {
+			for j := i; j < l-1; j++ {
+				nums[j], nums[j+1] = nums[j+1], nums[j]
+				//nums[j] = nums[j+1]
+			}
+			//nums[l-1] = 0
+			l--
+		}
+	}
+}

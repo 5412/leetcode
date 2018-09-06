@@ -77,3 +77,23 @@ func TestSingleNumber(t *testing.T) {
 		t.Errorf("expected the result of %v to be %d but insteaded got %d!", input, expected, output)
 	}
 }
+
+func TestPlusOne(t *testing.T) {
+	input := []int{9,9}
+	output := plusOne(input)
+	expected := []int{1,0,0}
+	if ! reflect.DeepEqual(output, expected) {
+		t.Errorf("Expected the result of %v to be %v but insteaded got %v!", input, expected, output)
+	}
+}
+
+func TestMoveZeros(t *testing.T) {
+	input := []int{0, 3, 0, 0, 0, 1, 2, 7, 0, 3, 1}
+	moveZeros(input)
+	expected := []int{3,1,2,7,3,1,0,0,0,0,0}
+
+	if ! reflect.DeepEqual(input, expected) {
+		t.Errorf("Expected the result of %v to be %v but insteaded got %v!", []int{0, 3, 0, 0, 0, 1, 2, 7, 0, 3, 1}, expected, input)
+
+	}
+}
