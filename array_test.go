@@ -1,4 +1,4 @@
-package main
+package leetcode
 
 import (
 	"reflect"
@@ -8,7 +8,7 @@ import (
 func TestRemoveDuplicates(t *testing.T) {
 	input := []int{0, 1, 1, 2, 2, 2, 3, 4, 5, 5, 6, 7, 7}
 
-	num := removeDuplicates(input)
+	num := RemoveDuplicates(input)
 
 	expected := 8
 
@@ -26,9 +26,9 @@ func TestMaxProfit(t *testing.T) {
 	expected2 := 4
 	expected3 := 7
 
-	output1 := maxProfit(input1)
-	output2 := maxProfit(input2)
-	output3 := maxProfit(input3)
+	output1 := MaxProfit(input1)
+	output2 := MaxProfit(input2)
+	output3 := MaxProfit(input3)
 
 	switch {
 	case expected1 != output1:
@@ -46,7 +46,7 @@ func TestRotate(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7}
 	k := 2
 	expected := []int{6, 7, 1, 2, 3, 4, 5}
-	rotate(input, k)
+	Rotate(input, k)
 
 	if !reflect.DeepEqual(input, expected) {
 		t.Errorf("expected the rusult of : %v to be %d but instead got %d!", []int{1, 2, 3, 4, 5, 6, 7}, expected, input)
@@ -55,10 +55,10 @@ func TestRotate(t *testing.T) {
 
 func TestContainsDuplicate(t *testing.T) {
 	input1 := []int{1, 2, 3, 1}
-	e1 := containsDuplicate(input1)
+	e1 := ContainsDuplicate(input1)
 
 	input2 := []int{1, 2, 3, 4}
-	e2 := containsDuplicate(input2)
+	e2 := ContainsDuplicate(input2)
 
 	if !e1 {
 		t.Errorf("expected the result of %v to be true but insteaded got %v!", input1, e1)
@@ -71,7 +71,7 @@ func TestContainsDuplicate(t *testing.T) {
 
 func TestSingleNumber(t *testing.T) {
 	input := []int{1, 2, 3, 1, 2}
-	output := singleNumber(input)
+	output := SingleNumber(input)
 	expected := 3
 	if output != expected {
 		t.Errorf("expected the result of %v to be %d but insteaded got %d!", input, expected, output)
@@ -80,7 +80,7 @@ func TestSingleNumber(t *testing.T) {
 
 func TestPlusOne(t *testing.T) {
 	input := []int{9,9}
-	output := plusOne(input)
+	output := PlusOne(input)
 	expected := []int{1,0,0}
 	if ! reflect.DeepEqual(output, expected) {
 		t.Errorf("Expected the result of %v to be %v but insteaded got %v!", input, expected, output)
@@ -89,11 +89,84 @@ func TestPlusOne(t *testing.T) {
 
 func TestMoveZeros(t *testing.T) {
 	input := []int{0, 3, 0, 0, 0, 1, 2, 7, 0, 3, 1}
-	moveZeros(input)
+	MoveZeros(input)
 	expected := []int{3,1,2,7,3,1,0,0,0,0,0}
 
 	if ! reflect.DeepEqual(input, expected) {
 		t.Errorf("Expected the result of %v to be %v but insteaded got %v!", []int{0, 3, 0, 0, 0, 1, 2, 7, 0, 3, 1}, expected, input)
 
 	}
+}
+
+func TestTwoSum(t *testing.T) {
+	nums := []int{2, 7, 11, 15}
+	target := 9
+
+	res := TwoSum(nums, target)
+
+	if nums[res[0]] + nums[res[1]] != target {
+		t.Errorf("Expect nums's (%v) nums[%d] + nums[%d] = %d but instead of got %d",nums, res[0], res[1],target, nums[res[0]] + nums[res[1]])
+	}
+}
+
+func TestIsValidSudoku(t *testing.T) {
+	/*
+	[[".",".","5",".",".",".",".",".","."],
+	["1",".",".","2",".",".",".",".","."],
+	[".",".","6",".",".","3",".",".","."],
+	["8",".",".",".",".",".",".",".","."],
+	["3",".","1","5","2",".",".",".","."],
+	[".",".",".",".",".",".",".","4","."],
+	[".",".","6",".",".",".",".",".","."],
+	[".",".",".",".",".",".",".","9","."],
+	[".",".",".",".",".",".",".",".","."]]
+
+	[
+	[".",".","5",".",".",".",".",".","."],
+	["1",".",".","2",".",".",".",".","."],
+	[".",".","6",".",".","3",".",".","."],
+	["8",".",".",".",".",".",".",".","."],
+	["3",".","1","5","2",".",".",".","."],
+	[".",".",".",".",".",".",".","4","."],
+	[".",".","6",".",".",".",".",".","."],
+	[".",".",".",".",".",".",".","9","."],
+	[".",".",".",".",".",".",".",".","."]
+	]
+	 */
+	input := [][]byte{
+		{'.','.','5','.','.','.','.','.','.'},
+		{'1','.','.','2','.','.','.','.','.'},
+		{'.','.','6','.','.','3','.','.','.'},
+		{'8','.','.','.','.','.','.','.','.'},
+		{'3','.','1','5','2','.','.','.','.'},
+		{'.','.','.','.','.','.','.','4','.'},
+		{'.','.','6','.','.','.','.','.','.'},
+		{'.','.','.','.','.','.','.','9','.'},
+		{'.','.','.','.','.','.','.','.','.'},
+	}
+
+	res := IsValidSudoku(input)
+
+	if res {
+		t.Errorf("Somethis wrong %v", input)
+	}
+}
+
+func TestMatrixRotate(t *testing.T) {
+	matrix := make([][]int, 3)
+	for i:=0; i<3; i++ {
+		matrix[i] = []int{i+1,i+2,i+3}
+	}
+
+	expected := [][]int{
+		{3,2,1},
+		{4,3,2},
+		{5,4,3},
+	}
+	MatrixRotate(matrix)
+
+	if !reflect.DeepEqual(matrix, expected) {
+		t.Errorf("Something wrong and I don't want to say anything")
+	}
+
 }
