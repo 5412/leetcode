@@ -1,5 +1,9 @@
 package leetcode
 
+import (
+	"fmt"
+)
+
 type ListNode struct {
 	Val int
 	Next *ListNode
@@ -105,6 +109,82 @@ func ReverseList(head *ListNode) *ListNode {
 	//tmp.Next = h
 	//h = tmp
 	//return h
+}
+
+func MergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+
+	// leetcode: God's algorithm
+
+	head := &ListNode{}
+	ptr := head
+	for l1 != nil && l2 != nil {
+		if l1.Val < l2.Val {
+			ptr.Next = l1
+			l1 = l1.Next
+		} else {
+			ptr.Next = l2
+			l2 = l2.Next
+		}
+		ptr = ptr.Next
+	}
+
+	if l1 != nil {
+		ptr.Next = l1
+	} else {
+		ptr.Next = l2
+	}
+
+	return head.Next
+
+
+	//step1 := l1
+	//step2 := l2
+	//
+	//if l1 == nil {
+	//	return l2
+	//}
+	//
+	//if l2 == nil {
+	//	return l1
+	//}
+	//
+	//if l1.Val > l2.Val {
+	//	l1, l2 = l2, l1
+	//}
+	//
+	//h := l1
+	//
+	//
+	//for l1 != nil && l2 !=nil {
+	//
+	//	for l1 != nil && l1.Val <= l2.Val {
+	//		step1 = l1
+	//		l1 = l1.Next
+	//	}
+	//
+	//	step1.Next = l2
+	//
+	//	if l1 == nil {
+	//		break
+	//	}
+	//
+	//	for l2 != nil && l1 != nil && l2.Val < l1.Val {
+	//		step2 = l2
+	//		l2 = l2.Next
+	//	}
+	//
+	//	step2.Next = l1
+	//
+	//}
+	//return h
+}
+
+func PrintList(l *ListNode)  {
+	for l.Next != nil {
+		fmt.Print(l.Val, "-")
+		l = l.Next
+	}
+	fmt.Println(l.Val)
 }
 
 
