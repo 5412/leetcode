@@ -290,10 +290,10 @@ func CountAndSay(n int) string {
 		return "1"
 	}
 	result := "1"
-	for i:=1; i<n; i++ {
+	for i := 1; i < n; i++ {
 		buf := make([]byte, 1)
 		buf[0] = '0'
-		for j:=0; len(result) > 0; {
+		for j := 0; len(result) > 0; {
 			if j == len(result) {
 				buf = append(buf, result[j-1])
 				break
@@ -301,7 +301,7 @@ func CountAndSay(n int) string {
 
 			if result[j] == result[0] {
 				l := len(buf)
-				buf[l-1] ++
+				buf[l-1]++
 				j++
 				//continue
 			} else {
@@ -317,4 +317,69 @@ func CountAndSay(n int) string {
 	return result
 }
 
+func LongestCommonPrefix(strs []string) string {
 
+	// God's algorithm
+	l := len(strs)
+
+	if l == 0 {
+		return ""
+	}
+
+	prefix := strs[0]
+
+	for i:=1; i<l; i++ {
+		prefixLen := len(prefix)
+		strLen := len(strs[i])
+
+		if prefixLen == 0 {
+			break
+		}
+
+		for j:=0; j<strLen; j++ {
+
+			if j >= prefixLen {
+				break
+			}
+
+			if strs[i][j] != prefix[j] {
+				prefix = prefix[0:j]
+				break
+			}
+		}
+
+		if len(prefix) > strLen {
+			prefix = strs[i]
+		}
+	}
+
+	return prefix
+
+
+	//	var pos int
+//	l := len(strs)
+//	if l < 1 {
+//		return ""
+//	}
+//
+//	if l == 1 {
+//		return strs[0]
+//	}
+//
+//	for {
+//		if len(strs[0]) < pos + 1 {
+//			goto End
+//		}
+//
+//		tmp := strs[0][pos]
+//		for i := 1; i < l; i++ {
+//			if len(strs[i]) < pos+1 || strs[i][pos] != tmp {
+//				goto End
+//			}
+//		}
+//		pos++
+//	}
+//
+//End:
+//	return strs[0][:pos]
+}
