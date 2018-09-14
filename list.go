@@ -215,6 +215,73 @@ func PrintList(l *ListNode)  {
 	fmt.Println(l.Val)
 }
 
+/*
+链表练习完成：有两道用C实现的代码：
+bool hasCycle(struct ListNode *head) {
+    if (head == NULL) {
+        return false;
+    }
+    if (head->next == NULL) {
+        return false;
+    }
+    struct ListNode* current;
+    struct ListNode* tmp;
+
+    current = head;
+
+    while (current->next != NULL) {
+        tmp = head;
+        while(tmp != current && tmp != current->next) {
+            tmp = tmp->next;
+        }
+        if (tmp == current->next) {
+                return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+// Some God's algorithm:
+bool hasCycle(struct ListNode *head) {
+    struct ListNode *newSign, *oldSign, *k;
+    if(head == NULL) return false;
+    if(head -> next == head) return true;
+    newSign = head -> next;  //将链表翻转
+    oldSign = head;
+    head -> next = NULL;
+    while(newSign!= NULL){
+        k = newSign;
+        newSign = newSign-> next;
+        k-> next = oldSign;
+        oldSign = k;
+    }
+    return k == head;
+}
+
+bool hasCycle(struct ListNode *head) {
+    struct ListNode *slow=head;
+    struct ListNode *fast=head;
+
+        while(fast&&fast->next){
+
+            slow=slow->next;
+
+            fast=fast->next->next;
+
+            if(slow==fast)return true;
+
+        }
+
+        return false;
+}
+
+void deleteNode(struct ListNode* node) {
+    node->val = node->next->val;
+    node->next = node->next->next;
+}
+ */
+
 
 
 
