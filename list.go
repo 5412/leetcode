@@ -179,6 +179,34 @@ func MergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 	//return h
 }
 
+func IsPalindromeList(head *ListNode) bool {
+
+	if head == nil || head.Next == nil {
+		return true
+	}
+
+	fast := head
+	slow := head
+
+	for fast.Next != nil && fast.Next.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+
+	slow.Next = ReverseList(slow.Next)
+	slow = slow.Next
+
+	for slow != nil  {
+		if head.Val != slow.Val {
+			return false
+		}
+		head = head.Next
+		slow = slow.Next
+	}
+
+	return true
+}
+
 func PrintList(l *ListNode)  {
 	for l.Next != nil {
 		fmt.Print(l.Val, "-")
