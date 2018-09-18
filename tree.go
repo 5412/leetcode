@@ -1,7 +1,6 @@
 package leetcode
 
 import (
-	"golang.org/x/tools/container/intsets"
 	"math"
 )
 
@@ -46,3 +45,24 @@ func isValidBSTc(node *TreeNode, max int, min int) bool {
 	}
 	return isValidBSTc(node.Left, node.Val, min) && isValidBSTc(node.Right, max, node.Val)
 }
+
+/* func IsSymmetric(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	if root.Left == nil && root.Right == nil {
+		return true
+	}
+
+	return judge(root.Left, root.Right)
+}
+
+func judge(root1, root2 *TreeNode) bool {
+	if root1 == nil && root2 ==nil {
+		return true
+	} else if root1 != nil && root2 != nil && root1.Val == root2.Val && judge(root1.Left, root2.Right) && judge(root1.Right, root2.Left) {
+		return true
+	} else {
+		return false
+	}
+} */
