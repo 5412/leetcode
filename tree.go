@@ -83,7 +83,7 @@ func LevelTreeOrder(root *TreeNode) [][]int {
 	return result
 }
 
-/* func IsSymmetric(root *TreeNode) bool {
+func IsSymmetric(root *TreeNode) bool {
 	if root == nil {
 		return true
 	}
@@ -102,4 +102,20 @@ func judge(root1, root2 *TreeNode) bool {
 	} else {
 		return false
 	}
-} */
+}
+
+func SortedArrayToBST(nums []int) *TreeNode {
+	return sortedArrayToBSTHelper(nums)
+}
+
+func sortedArrayToBSTHelper(nums []int) *TreeNode{
+	l := len(nums)
+	if len(nums) < 1 {
+		return  nil
+	}
+	index := l / 2
+	node := &TreeNode{Val:nums[index]}
+	node.Left = sortedArrayToBSTHelper(nums[:index])
+	node.Right = sortedArrayToBSTHelper(nums[index+1:])
+	return node
+}
