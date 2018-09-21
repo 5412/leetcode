@@ -1,6 +1,7 @@
 package leetcode
 
 import (
+	"math"
 	"strconv"
 )
 
@@ -77,4 +78,63 @@ func CountPrimes(n int) int {
 		}
 	}
 	return count
+}
+
+func IsPowerOfThree(n int) bool {
+	// God's algorithm
+	// 换底公式： (log a b) = (log c a) / (log c b)
+
+	// 计算int范围内最大的3的幂数
+	if n <= 0 {
+		return false
+	}
+
+	if n == 1 || n == 3 {
+		return true
+	}
+
+	// note: 最大的Int值竟然计算的值不准，目前还不晓得原因, 经测试位数大于54后出现精度不准问题
+	// max3 := int(math.Log10(0x7fffffff) / math.Log10(3))
+	max3 := int(math.Log10(1 << 50) / math.Log10(3))
+
+	maxNum := math.Pow(3, float64(max3))
+
+	if int(maxNum) % n == 0 {
+		return true
+	}
+	return false
+
+	//if n == 3 || n == 1 {
+	//	return true
+	//}
+	//
+	//pow := 3
+	//
+	//for {
+	//	pow *= 3
+	//	if pow == n {
+	//		return true
+	//	}
+	//	if pow > n {
+	//		break
+	//	}
+	//}
+	//
+	//return false
+}
+
+func RomanToInt(s string) int {
+	result := 0
+	m := map[rune]int{'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
+	runes := []rune(s)
+	for i:=0; i<len(runes);i++ {
+		switch {
+		case i < len(runes) - 1 && m[runes[i]] < m[runes[i+1]]:
+			result += m[runes[i+1]] - m[runes[i]]
+			i++
+		default:
+			result += m[runes[i]]
+		}
+	}
+	return result
 }
