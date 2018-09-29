@@ -1,4 +1,4 @@
-package leetcode
+package easy
 
 // leetcode:explore/interview/card/top-interview-questions-easy/26/others/64/
 // implementation in C Program Language

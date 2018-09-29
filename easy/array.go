@@ -1,4 +1,4 @@
-package leetcode
+package easy
 
 func CountRangeSum(nums []int, lower int, upper int) int {
 	var snum int = 0
