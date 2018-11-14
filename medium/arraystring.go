@@ -123,3 +123,40 @@ func ThreeSum(nums []int) [][]int {
 	//}
 	//return res
 }
+
+func SetZeros(matrix [][]int) {
+	var (
+		x []int
+		y []int
+	)
+
+
+	m := len(matrix)
+	n := len(matrix[0])
+
+
+	for i := 0; i<m; i++ {
+		for j:=0; j<n; j++ {
+			if matrix[i][j] == 0 {
+				x = append(x, i)
+				y = append(y, j)
+			}
+		}
+	}
+
+	if len(x) > 0 {
+		for i:=0; i<len(x);  {
+			for j:=0; j<n; j++ {
+				matrix[x[i]][j] = 0
+			}
+		}
+	}
+
+	if len(y) > 0 {
+		for i:=0; i<len(y);  {
+			for j:=0; j<m; j++ {
+				matrix[m][y[i]] = 0
+			}
+		}
+	}
+}
