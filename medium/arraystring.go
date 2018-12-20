@@ -125,38 +125,105 @@ func ThreeSum(nums []int) [][]int {
 }
 
 func SetZeros(matrix [][]int) {
-	var (
-		x []int
-		y []int
-	)
 
+	rows := len(matrix)
+	if rows == 0 {
+		return
+	}
 
-	m := len(matrix)
-	n := len(matrix[0])
+	colls := len(matrix[0])
+	if colls == 0 {
+		return
+	}
 
+	firstRow := false
+	firstColl := false
 
-	for i := 0; i<m; i++ {
-		for j:=0; j<n; j++ {
+	// 第一步如果出现0 则将横轴第一位设为0，纵轴第一位设为0，如此设计可定不会改变循环中[i,j]之后的元素
+	for i:=0; i<rows; i++ {
+		for j:=0; j<colls; j++ {
 			if matrix[i][j] == 0 {
-				x = append(x, i)
-				y = append(y, j)
+				if i == 0 {
+					firstRow = true
+				}
+				if j == 0 {
+					firstColl = true
+				}
+				matrix[0][j] = 0
+				matrix[i][0] = 0
 			}
 		}
 	}
 
-	if len(x) > 0 {
-		for i:=0; i<len(x);  {
-			for j:=0; j<n; j++ {
-				matrix[x[i]][j] = 0
+	// 分别从横向（纵向）第二行（列）循环，如果首元素为1则全行（列）都设为0
+	// 从第二列循环的原因就是不污染第一行第一列的值
+	for i:=1; i<rows; i++ {
+		if matrix[i][0] == 0 {
+			for j:=1; j<colls; j++ {
+				matrix[i][j] = 0
 			}
 		}
 	}
 
-	if len(y) > 0 {
-		for i:=0; i<len(y);  {
-			for j:=0; j<m; j++ {
-				matrix[m][y[i]] = 0
+	for j:=1; j<colls; j++ {
+		if matrix[0][j] == 0 {
+			for i:=1; i<rows; i++ {
+				matrix[i][j] = 0
 			}
 		}
 	}
+
+	//此时处理第一行第一列的情况
+	if firstRow {
+		for i:=0; i<colls; i++ {
+			matrix[0][i] = 0
+		}
+	}
+
+	if firstColl {
+		for i:=0; i<rows; i++ {
+			matrix[i][0] = 0
+		}
+	}
+
+	// 非原地算法实现，原地算法的意思就是固定空间
+	//var (
+	//	x []int
+	//	y []int
+	//)
+	//
+	//
+	//m := len(matrix)
+	//n := len(matrix[0])
+	//
+	//if m*n == 0 {
+	//	return
+	//}
+	//
+	//
+	//for i := 0; i<m; i++ {
+	//	for j:=0; j<n; j++ {
+	//		if matrix[i][j] == 0 {
+	//			x = append(x, i)
+	//			y = append(y, j)
+	//		}
+	//	}
+	//}
+	//fmt.Println(x, y)
+	//
+	//if len(x) > 0 {
+	//	for i:=0; i<len(x); i++ {
+	//		for j:=0; j<n; j++ {
+	//			matrix[x[i]][j] = 0
+	//		}
+	//	}
+	//}
+	//
+	//if len(y) > 0 {
+	//	for i:=0; i<len(y); i++ {
+	//		for j:=0; j<m; j++ {
+	//			matrix[j][y[i]] = 0
+	//		}
+	//	}
+	//}
 }
