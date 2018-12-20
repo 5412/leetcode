@@ -227,3 +227,69 @@ func SetZeros(matrix [][]int) {
 	//	}
 	//}
 }
+
+func GroupAnagrams(str []string) [][]string {
+	l := len(str)
+
+	if l == 0 {
+		return nil
+	}
+
+	if l == 1 {
+		return [][]string{str}
+	}
+
+	m := make(map[string][]string, 0)
+
+	for i:=0; i<l; i++ {
+		bs := []byte(str[i])
+		sort.Slice(bs, func(i, j int) bool {
+			return bs[i] < bs[j]
+		})
+		keyString := string(bs)
+		m[keyString] = append(m[keyString], str[i])
+	}
+	result := make([][]string, 0)
+	for _, v := range m {
+		result = append(result, v)
+	}
+
+	return result
+}
+
+// leetcode上大神的字母异位词分组
+// 考虑 所有输入均为小写字母，故可使用countSort返回排序好的字符串
+// 不考虑输出顺序， m := make(map[string]int) 此map的key存的是单词排序好的字符串，value存的值为，应该在返回结果中的位置
+// 大神的能省CPU也能省空间
+func groupAnagrams(strs []string) [][]string {
+	m := make(map[string]int)
+	r := make([][]string, 0)
+	i := 0
+	for _, s := range strs {
+		ss := countSort(s)
+		if id, ok := m[ss]; ok {
+			r[id] = append(r[id], s)
+		} else {
+			m[ss] = i
+			r = append(r, []string{s})
+			i++
+		}
+	}
+	return r
+}
+
+func countSort(s string) string {
+	var cnt [26]int
+	for i := 0; i < len(s); i++ {
+		cnt[s[i]-byte('a')]++
+	}
+	ret := make([]byte, len(s))
+	j := 0
+	for i := 0; i < 26; i++ {
+		for k := 0; k < cnt[i]; k++ {
+			ret[j] = byte(i) + byte('a')
+			j++
+		}
+	}
+	return string(ret)
+}
