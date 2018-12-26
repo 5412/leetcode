@@ -293,3 +293,59 @@ func countSort(s string) string {
 	}
 	return string(ret)
 }
+
+func LengthOfLongestSubstring(s string) int {
+	m := make(map[rune]bool,0)
+	runes := make([]rune,0)
+	l := 0
+	for _,v := range s {
+		if m[v] {
+			if l< len(runes) {
+				l = len(runes)
+			}
+			i := 0
+			for i<len(runes) {
+				if runes[i] == v {
+					m[v] = false
+					i++
+					break
+				}
+				m[runes[i]] = false
+				i++
+
+			}
+			runes = runes[i:]
+		}
+		m[v] = true
+		runes = append(runes, v)
+	}
+	if l< len(runes) {
+		l = len(runes)
+	}
+	return l
+}
+
+
+// leetcode's God algorithm
+
+func lengthOfLongestSubstring(s string) int {
+	n := len(s)
+	mp := make(map[byte]int)
+	ans := 0
+	for i, j := 0, 0; j < n; j++ {
+		if mp[s[j]] != 0 {
+			if mp[s[j]] > i {
+				// mp[a] 存储的为a元素下一个元素的位置
+				// i为无重复字符的起始点
+				// 如a存在 且起始点i < 之前a元素的下一个元素点则替换i，以保证从i到j无重复记录
+				// 1，2 = 2-1+1个元素
+				i = mp[s[j]]
+			}
+		}
+		if t := j - i + 1; t > ans {
+			ans = t
+		}
+		mp[s[j]] = j + 1
+	}
+	return ans
+}
