@@ -349,3 +349,27 @@ func lengthOfLongestSubstring(s string) int {
 	}
 	return ans
 }
+
+func lengthOfLongestSubstring2(s string) int {
+	if len(s) == 0 {
+		return 0
+	}
+	maxLen := 1
+	startIndex, endIndex := 0,0
+	// 两个for循环竟然比一个for循环还快
+	for endIndex=0; endIndex<len(s); endIndex++{
+		for j:=startIndex;j<endIndex;j++{
+			if s[j]==s[endIndex]{
+				if len(s[startIndex:endIndex]) > maxLen {
+					maxLen = len(s[startIndex:endIndex])
+				}
+				startIndex = j+1
+				break
+			}
+		}
+	}
+	if len(s[startIndex:endIndex]) > maxLen {
+		maxLen = len(s[startIndex:endIndex])
+	}
+	return maxLen
+}
