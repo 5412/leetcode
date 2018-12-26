@@ -1,6 +1,7 @@
 package medium
 
 import (
+	"bytes"
 	"sort"
 )
 
@@ -372,4 +373,165 @@ func lengthOfLongestSubstring2(s string) int {
 		maxLen = len(s[startIndex:endIndex])
 	}
 	return maxLen
+}
+
+func LongestPalindrome(s string) string {
+	if isPalindrome(s) || len(s) == 1 {
+		return s
+	}
+	result := ""
+	for i:=0; i<len(s); i++ {
+		if len(s)-i < len(result){
+			return result
+		}
+		for j:=len(s)-1; j>i; j-- {
+			if isPalindrome(s[i:j+1]) {
+				if len(result) < len(s[i:j+1]) {
+					result = string(s[i:j+1])
+				}
+			}
+		}
+	}
+	return string(s[0])
+}
+
+func isPalindrome(s string) bool {
+	if len(s) == 1 {
+		return true
+	}
+
+	beginIndex, endIndex := 0, len(s) - 1
+	for  beginIndex < endIndex {
+		if s[beginIndex] == s[endIndex] {
+			beginIndex++
+			endIndex--
+		} else {
+			break
+		}
+	}
+	if beginIndex >= endIndex {
+		return true
+	}
+	return false
+}
+
+//leetcode God's algorithm
+
+func longestPalindrome(s string) string {
+	if len(s) == 0 {
+		return ""
+	}
+
+	var start, end int
+	for i,_ := range s {
+		// 自身作为中心点
+		l1 := expandAroundCenter(s, i, i)
+		// 自身与第二个元素作为中心点
+		l2 := expandAroundCenter(s, i, i + 1)
+		// 最长回文串长度
+		l := max(l1, l2)
+
+		// 重新计算回文字符串的起始
+		if l > end - start {
+			start = i - (l - 1) / 2
+			end = i + l / 2
+		}
+	}
+
+	return s[start:end+1]
+}
+
+// 作为中心向左向右扩张回文字符串，返回长度
+func expandAroundCenter(s string, left, right int) int {
+	for left >= 0 && right < len(s) && s[left] == s[right] {
+		left--
+		right++
+	}
+	return right - left - 1
+}
+
+func max(x, y int) int {
+	if x > y {
+		return x
+	}
+	return y
+}
+
+var longest []byte
+
+// leetcode's God algorithm2
+func longestPalindrome2(s string) string {
+
+	len := len(s)
+	if len < 2 {
+		return s
+	}
+	b := []byte(s)
+
+	longest = b[:1]
+
+	for i := 0; i < len; i++ {
+		//odd
+		Palindrome(b, len, i, 0)
+
+		//even
+		Palindrome(b, len, i, 1)
+	}
+	return string(longest)
+}
+
+func Palindrome(b []byte, length, i, offset int) {
+	left := i
+	right := i + offset
+
+	for left >= 0 && right < length && b[left] == b[right] {
+		left--
+		right++
+	}
+
+	if len(b[left+1:right]) >= len(longest) {
+		longest = b[left+1 : right]
+	}
+}
+
+// 牛逼的马拉车算法，线性时间复杂度，目前还没看懂
+func longestPalindrome3(s string) string {
+	strBuffer := bytes.NewBuffer(make([]byte, 0, 2*len(s)+3))
+	strBuffer.Write([]byte{'$', '#'})
+	for _, b := range []byte(s) {
+		strBuffer.WriteByte(b)
+		strBuffer.WriteByte('#')
+	}
+	strBuffer.WriteByte('%')
+	str := strBuffer.String()
+	p := make([]int, len(str))
+	resLen, resStart := 0, 0
+	midPos, maxEdge := 0, 0
+	for i, strLen := 0, len(str); i < strLen; i++ {
+		if maxEdge > i {
+			if p[2*midPos-i] > maxEdge-i {
+				p[i] = maxEdge - i
+			} else {
+				p[i] = p[2*midPos-i]
+			}
+		} else {
+			p[i] = 1
+		}
+		for i+p[i] < len(str) && i-p[i] >= 0 {
+			if str[i+p[i]] == str[i-p[i]] {
+				p[i]++
+			} else {
+				break
+			}
+		}
+		if i+p[i] > maxEdge {
+			maxEdge = i + p[i]
+			midPos = i
+		}
+		if p[i] > resLen {
+			resLen = p[i]
+			resStart = (midPos - resLen) / 2
+		}
+	}
+	return s[resStart : resStart+resLen-1]
 }
