@@ -535,3 +535,58 @@ func longestPalindrome3(s string) string {
 	}
 	return s[resStart : resStart+resLen-1]
 }
+
+func IncreasingTriplet(nums []int) bool {
+	l := len(nums)
+	if l < 3 {
+		return false
+	}
+
+	maxValue1, maxValue2 := int(^uint(0) >> 1),int(^uint(0) >> 1)
+
+	for i:=0; i<l; i++ {
+		// maxValue1 为数组中最小值
+		// 如果当前元素比maxValue大，且maxValue2为当前元素，
+		// 记为肯定存在一个比当前元素（会不断更新为最小的满族条件的值）下的值在数组中
+		// 如果当前元素比最小值大maxValue1，且比肯定存在比他小的值maxValue2还大，则找到满足条件的数组
+		if maxValue1 >= nums[i] {
+			maxValue1 = nums[i]
+		} else if maxValue2 >= nums[i] {
+			maxValue2 = nums[i]
+		} else {
+			return true
+		}
+
+	}
+	return false
+}
+
+
+// 太厉害了
+func IncreasingTriplet2(nums []int) bool {
+	n := len(nums)
+	if n < 3 {
+		return false
+	}
+
+	var a, b, cnt int
+
+	for i := 0; i+1 < n; i++ {
+		if nums[i] < nums[i+1] {
+			if cnt == 0 {
+				a = nums[i]
+				b = nums[i+1]
+				cnt = 1
+				continue
+			} else if cnt == 1 {
+				if a < nums[i] || b < nums[i+1] {
+					return true
+				} else {
+					a = nums[i]
+					b = nums[i+1]
+				}
+			}
+		}
+	}
+	return false
+}
