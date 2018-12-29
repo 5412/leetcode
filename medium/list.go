@@ -171,3 +171,26 @@ func OddEvenListLeet(head *ListNode) *ListNode  {
 	odd.Next = evenh
 	return head
 }
+
+// 或者把两个链表补到相等长度
+func GetIntersectionNode(headA, headB *ListNode) *ListNode {
+	scanA, scanB := headA, headB
+	if scanA == nil || scanB == nil {
+		return nil
+	}
+	for scanA != scanB  {
+		if scanA == nil  {
+			scanA = headB
+		} else {
+			scanA = scanA.Next
+		}
+
+		if scanB == nil  {
+			scanB = headA
+		} else {
+			scanB = scanB.Next
+		}
+	}
+
+	return scanA
+}
