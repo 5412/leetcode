@@ -117,3 +117,57 @@ func AddTwoNumbers2(l1 *ListNode, l2 *ListNode) *ListNode {
 	}
 	return head
 }
+
+func OddEvenList(head *ListNode) *ListNode {
+	if head == nil {
+		return head
+	}
+	walk := head
+	var (
+		odd *ListNode
+		even *ListNode
+	)
+	index := 2
+	odd = walk
+	walk = walk.Next
+	for walk != nil {
+		node := walk
+		walk = walk.Next
+		node.Next = nil
+		if (index & 1) == 1 {
+			odd = insertListAtNode(odd, node)
+		} else {
+			even = insertListAtNode(even, node)
+		}
+		index++
+	}
+	return head
+}
+
+func insertListAtNode(n1 *ListNode, n2 *ListNode) * ListNode {
+	if n1 == nil {
+		n1 = n2
+	} else {
+		next := n1.Next
+		n1.Next = n2
+		n2.Next = next
+	}
+	return n2
+}
+
+
+// leetcode's God algorithm 
+
+func OddEvenListLeet(head *ListNode) *ListNode  {
+	if head == nil{
+		return nil
+	}
+	odd,even,evenh := head,head.Next,head.Next
+	for even != nil && even.Next != nil{
+		odd.Next,even.Next = even.Next,even.Next.Next
+		odd = odd.Next
+		even = even.Next
+	}
+	odd.Next = evenh
+	return head
+}
