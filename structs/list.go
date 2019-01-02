@@ -34,9 +34,3 @@ func GenerateList(vals[]int) *ListNode {
 	}
 	return headList
 }
-
-type TreeNode struct {
-	Val int
-	Left *TreeNode
-	Right *TreeNode
-}
