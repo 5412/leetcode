@@ -44,4 +44,71 @@ func InorderTraversalRecursion(root *TreeNode) []int {
 	return nums
 }
 
+func ZigzagLevelOrder(root *TreeNode) [][]int {
+	var result [][]int
+	var layers []*TreeNode
+	i := 1
+	layers = append(layers, root)
+	for len(layers) != 0 {
+		temp := make([]*TreeNode, 0)
+		nums := make([]int, 0)
+		for _,node := range(layers) {
+			nums = append(nums, node.Val)
+			if node.Left != nil {
+				temp = append(temp, node.Left)
+			}
+			if node.Right != nil {
+				temp = append(temp, node.Right)
+			}
+		}
+		if i % 2 == 0 {
+			tmp := make([]int, 0)
+			for j:= len(nums) -1;j>=0; j-- {
+				tmp = append(tmp, nums[j])
+			}
+			nums = tmp
+		}
+		result = append(result, nums)
+		layers = temp
+		i++
+	}
+	return result
+}
+
+
+func ZigzagLevelOrderLeetcode(root *TreeNode) [][]int {
+	if root==nil{
+		return nil
+	}
+	stack := []*TreeNode{root}
+	leftFlag := false
+	ret := make([][]int,0,10)
+	for len(stack)>0{
+		temp := make([]int,0,len(stack))
+		newStack := make([]*TreeNode,0,len(stack))
+		for i:=len(stack)-1;i>=0;i--{
+			temp  = append(temp,stack[i].Val)
+			// 从左边开始
+			if leftFlag{
+				if stack[i].Right!=nil{
+					newStack = append(newStack,stack[i].Right)
+				}
+				if stack[i].Left!=nil{
+					newStack = append(newStack,stack[i].Left)
+				}
+			}else{
+				if stack[i].Left!=nil{
+					newStack = append(newStack,stack[i].Left)
+				}
+				if stack[i].Right!=nil{
+					newStack = append(newStack,stack[i].Right)
+				}
+			}
+		}
+		leftFlag = !leftFlag
+		ret = append(ret,temp)
+		stack = newStack
+	}
+	return ret
+}
 
