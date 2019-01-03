@@ -104,6 +104,7 @@ func ZigzagLevelOrderLeetcode(root *TreeNode) [][]int {
 					newStack = append(newStack,stack[i].Right)
 				}
 			}
+
 		}
 		leftFlag = !leftFlag
 		ret = append(ret,temp)
@@ -112,3 +113,128 @@ func ZigzagLevelOrderLeetcode(root *TreeNode) [][]int {
 	return ret
 }
 
+func BuildTree(preorder []int, inorder []int) *TreeNode {
+	//fmt.Println(preorder, inorder)
+	if len(preorder) == 0 || len(inorder) == 0 {
+		return nil
+	}
+	node := &TreeNode{preorder[0], nil, nil}
+	for i:=0; i<len(inorder); i++ {
+		if preorder[0] == inorder[i] {
+			if i-1 >= 0 {
+				node.Left = BuildTree(preorder[1:i+1], inorder[0:i])
+			} else {
+				node.Left = nil
+			}
+
+			if i+1 < len(inorder) {
+				node.Right = BuildTree(preorder[i+1:], inorder[i+1:])
+			} else {
+				node.Right = nil
+			}
+
+		}
+	}
+	return node
+}
+
+// leetcode 每个节点的右向指针
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  struct TreeLinkNode *left, *right, *next;
+ * };
+ *
+ */
+//void connect(struct TreeLinkNode *root) {
+//
+//if (root == NULL) {
+//return;
+//}
+//connectHelper(root, true);
+//}
+//
+//void connectHelper(struct TreeLinkNode *root, bool next) {
+//
+//if (root == NULL) {
+//return;
+//}
+//struct TreeLinkNode *nextNode;
+//
+//if (root->left != NULL) {
+//root->left->next = root->right;
+//nextNode = root->left;
+//if (root->next != NULL) {
+//root->right->next = root->next->left;
+//connectHelper(root->next, false);
+//}
+//} else {
+//return;
+//}
+//
+//if (nextNode != NULL && next) {
+//connectHelper(nextNode, true);
+//}
+//}
+
+//void connect(struct TreeLinkNode *root) {
+//if(root==NULL) return;
+//
+//struct TreeLinkNode *b[10240]={0};
+//int start=0;
+//int end=1;
+//int from=1;
+//
+//b[0]=root;
+//while(start<end)
+//{
+//int i=0;
+//for(i=start;i<end-1;i++)
+//{
+//b[i]->next=b[i+1];
+//if(b[i]->left!=NULL)b[from++]=b[i]->left;
+//if(b[i]->right!=NULL)b[from++]=b[i]->right;
+//}
+//if(i==end-1)
+//{
+//b[i]->next=NULL;
+//if(b[i]->left!=NULL)b[from++]=b[i]->left;
+//if(b[i]->right!=NULL)b[from++]=b[i]->right;
+//}
+//
+//start=end;
+//end=from;
+//}
+//}
+
+// 二叉搜索树第K小的元素
+// c代码实现,
+//1、计算左子树元素个数left。
+//
+//2、 left+1 = K，则根节点即为第K个元素
+//
+//      left >=k, 则第K个元素在左子树中，
+//
+//     left +1 <k, 则转换为在右子树中，寻找第K-left-1元素。
+
+// 方法二：因中序遍历为一个有序的数组，所以可以在中序遍历的过程中进行比较
+//int kthSmallest(struct TreeNode* root, int k) {
+//if (root == NULL)
+//return 0;
+//int leftSize = calcTreeSize(root->left);
+//if (k == leftSize+1){
+//return root->val;
+//}else if (leftSize >= k){
+//return kthSmallest(root->left,k);
+//}else{
+//return kthSmallest(root->right, k-leftSize-1);
+//}
+//
+//}
+//
+//int calcTreeSize(struct TreeNode* root){
+//if (root == NULL)
+//return 0;
+//return 1+calcTreeSize(root->left) + calcTreeSize(root->right);
+//}
