@@ -143,3 +143,24 @@ func gen(res *[]string, s string, left, right int) {
 		gen(res, s + ")", left, right - 1)
 	}
 }
+
+func Permute(nums []int) [][]int {
+	res := make([][]int, 0)
+	permuteHelper(nums, 0, &res)
+	return res
+}
+
+func permuteHelper(nums []int, start int, res *[][]int) {
+	if start >= len(nums) {
+		temp := make([]int, len(nums))
+		copy(temp, nums)
+		*res = append(*res, temp)
+	}
+
+	for i:=start; i< len(nums); i++ {
+		nums[start], nums[i] = nums[i], nums[start]
+
+		permuteHelper(nums, start+1, res)
+		nums[start], nums[i] = nums[i], nums[start]
+	}
+}
