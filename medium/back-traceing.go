@@ -9,20 +9,20 @@ func LetterCombinations(digits string) []string {
 	//res := make([]string, 0)
 
 	m := map[rune][]string{
-		'2':[]string{"a","b","c"},
-		'3':[]string{"d","e","f"},
-		'4':[]string{"g","h","i"},
-		'5':[]string{"j","k","l"},
-		'6':[]string{"m","n","o"},
-		'7':[]string{"p","q","r","s"},
-		'8':[]string{"t","u","v"},
-		'9':[]string{"w","x","y","z"},
+		'2': []string{"a", "b", "c"},
+		'3': []string{"d", "e", "f"},
+		'4': []string{"g", "h", "i"},
+		'5': []string{"j", "k", "l"},
+		'6': []string{"m", "n", "o"},
+		'7': []string{"p", "q", "r", "s"},
+		'8': []string{"t", "u", "v"},
+		'9': []string{"w", "x", "y", "z"},
 	}
 
-	for _,md := range digits{
+	for _, md := range digits {
 		tm := m[md]
 		if res == nil {
-			for _,v := range tm {
+			for _, v := range tm {
 				res = append(res, v)
 
 			}
@@ -34,8 +34,8 @@ func LetterCombinations(digits string) []string {
 			//res = make([]string,0)
 			l := len(res)
 			for _, r := range res {
-				for _,v := range tm {
-					res = append(res, r + v)
+				for _, v := range tm {
+					res = append(res, r+v)
 				}
 			}
 			res = res[l:]
@@ -63,36 +63,65 @@ func letterCombinations(digits string) []string {
 	maps[8] = "tuv"
 	maps[9] = "wxyz"
 
-	res := fun(digits,maps)
+	res := fun(digits, maps)
 
 	return res
 }
 
-func fun(digits string , maps map[int]string) (result []string){
+func fun(digits string, maps map[int]string) (result []string) {
 	if len(digits) < 1 {
 		return result
 	}
 
-	if len(digits) == 1{
+	if len(digits) == 1 {
 		ch := digits[0]
 		n := int(ch - '0')
 
 		str := maps[n]
-		for i:=0 ; i< len(str) ; i++{
-			result = append(result,str[i:i+1])
+		for i := 0; i < len(str); i++ {
+			result = append(result, str[i:i+1])
 		}
 		return result
 	}
 
-	data := fun(digits[1:],maps)
+	data := fun(digits[1:], maps)
 	ch := digits[0]
 	n := int(ch - '0')
 
 	str := maps[n]
-	for i:=0 ; i< len(str) ; i++{
-		for j:=0;j<len(data);j++{
-			result = append(result,str[i:i+1] + data[j])
+	for i := 0; i < len(str); i++ {
+		for j := 0; j < len(data); j++ {
+			result = append(result, str[i:i+1]+data[j])
 		}
 	}
 	return result
+}
+
+
+
+
+// some algorithm from leetcode
+func GenerateParenthesis(n int) []string {
+	if n == 1 {
+		return []string{"()"}
+	}
+	res := make([]string, 0)
+	generate(&res, "", 0, 0,n)
+	return res
+}
+
+func generate(res *[]string,s string, leftCount, rightCount, n int) {
+	if leftCount > n || rightCount > n {
+		return
+	}
+	if leftCount == n && rightCount == n {
+		*res = append(*res, s)
+		return
+	}
+
+	if leftCount >= rightCount {
+		generate(res, s + "(", leftCount+1, rightCount, n)
+		generate(res, s + ")", leftCount, rightCount+1, n)
+	}
+
 }
