@@ -97,9 +97,6 @@ func fun(digits string, maps map[int]string) (result []string) {
 	return result
 }
 
-
-
-
 // some algorithm from leetcode
 func GenerateParenthesis(n int) []string {
 	if n == 1 {
@@ -124,4 +121,25 @@ func generate(res *[]string,s string, leftCount, rightCount, n int) {
 		generate(res, s + ")", leftCount, rightCount+1, n)
 	}
 
+}
+
+func generateParenthesis(n int) []string {
+	res := make([]string, 0)
+	gen(&res, "", n,n)
+	return res
+}
+
+
+func gen(res *[]string, s string, left, right int) {
+	if left == 0 && right == 0 {
+		*res = append(*res, s)
+	}
+
+	if left > 0 {
+		gen(res, s + "(", left - 1, right)
+	}
+
+	if right > 0 && left < right {
+		gen(res, s + ")", left, right - 1)
+	}
 }
