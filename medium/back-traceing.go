@@ -164,3 +164,35 @@ func permuteHelper(nums []int, start int, res *[][]int) {
 		nums[start], nums[i] = nums[i], nums[start]
 	}
 }
+
+func permute(nums []int) [][]int {
+	var res [][]int
+	for i:=len(nums)-1; i>=0; i--{
+		res = oneMore(nums[i], res)
+	}
+	return res
+}
+
+func oneMore(more int, exist [][]int) [][]int {
+	if len(exist) == 0 {
+		return [][]int{[]int{more}}
+	}
+
+	res := [][]int{}
+	for _, arr := range exist {
+		for i := 0; i <= len(arr); i++ {
+			res = append(res, insertArrayPos(i, more, arr))
+		}
+	}
+
+	return res
+}
+
+func insertArrayPos(pos, value int, arr []int) []int {
+	newArr := make([]int, 0, len(arr)+1)
+	newArr = append(newArr, arr[:pos]...)
+	newArr = append(newArr, value)
+	newArr = append(newArr, arr[pos:]...)
+
+	return newArr
+}
