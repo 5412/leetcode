@@ -165,6 +165,8 @@ func permuteHelper(nums []int, start int, res *[][]int) {
 	}
 }
 
+
+// leetcode God's algorithm
 func permute(nums []int) [][]int {
 	var res [][]int
 	for i:=len(nums)-1; i>=0; i--{
