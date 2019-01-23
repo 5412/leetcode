@@ -198,3 +198,55 @@ func insertArrayPos(pos, value int, arr []int) []int {
 
 	return newArr
 }
+
+func subsets(nums []int) [][]int {
+	res := make([][]int, 0)
+	res = append(res, []int{})
+	for i:=0; i<len(nums); i++ {
+		subsetsHelper(nums[i], &res)
+	}
+	return res
+}
+
+func subsetsHelper(num int, res *[][]int)  {
+	tmp := make([][]int, len(*res))
+	copy(tmp, *res)
+	for i:=0; i<len(tmp); i++ {
+		t := make([]int, len(tmp[i]))
+		copy(t, tmp[i])
+		tmp[i] = append(t, num)
+
+	}
+	*res = append(*res, tmp...)
+}
+
+// leetcode God's algorithm
+func Subsets(nums []int) [][]int {
+	res := [][]int{[]int{}}
+	slice := []int{}
+	for i := 1; i <= len(nums); i++ {
+		subsets2(nums, i, 0, &res, &slice)
+	}
+	return res
+}
+
+func subsets2(nums []int, depth, index int, res *[][]int, slice *[]int) {
+	if len(*slice) == depth {
+		t := make([]int, len(*slice))
+		copy(t, *slice)
+		*res = append(*res, t)
+		return
+	}
+
+	for i := index; i < len(nums); i++ {
+		t := *slice
+		*slice = append(t, nums[i])
+		subsets2(nums, depth, i+1, res, slice)
+		if len(*slice) > 0 {
+			t = *slice
+
+			*slice = t[:len(t)-1]
+
+		}
+	}
+}
