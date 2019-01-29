@@ -250,3 +250,98 @@ func subsets2(nums []int, depth, index int, res *[][]int, slice *[]int) {
 		}
 	}
 }
+
+func Exist(board [][]byte, word string) bool {
+	visited := make(map[int]map[int]bool)
+	for i:=0; i<len(board); i++ {
+		visited[i] = map[int]bool{}
+		for j,_ := range board[i] {
+			visited[i][j] = false
+		}
+	}
+	for i:=0; i<len(board); i++ {
+		for j,_ := range board[i] {
+			if board[i][j] == word[0] {
+				if existHelper(board, word, i,j,0, visited) {
+					return  true
+				}
+			}
+		}
+	}
+
+	return false
+}
+
+func existHelper(board [][]byte, word string, x,y,index int, visited map[int]map[int]bool) bool  {
+	if x >= len(board) || x < 0 || y >= len(board[x]) || y < 0{
+		return false
+	}
+
+	if visited[x][y] == true || board[x][y] != word[index] {
+		return false
+	}
+
+	if index == len(word) - 1 {
+		visited[x][y] = true
+		return true
+	}
+
+	visited[x][y] = true
+
+	if 	existHelper(board, word, x + 1,y,index + 1, visited) || existHelper(board, word, x - 1,y,index + 1, visited) ||
+		existHelper(board, word, x, y + 1,index + 1, visited) || existHelper(board, word, x, y - 1,index + 1, visited) {
+		return true
+	}
+
+	visited[x][y] = false
+	return  false
+}
+
+// leetcode's God algorithm
+
+func exist(board [][]byte, word string) bool {
+	for i := 0; i < len(board); i++ {
+		for j := 0; j < len(board[i]); j++ {
+			if board[i][j] == word[0] {
+				if backtrackExist(board, i, j, word[1:]) {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+func backtrackExist(board [][]byte, i, j int, w string) bool {
+	if w == "" {
+		return true
+	}
+	// set board[i][j] empty
+	c := board[i][j]
+	board[i][j] = '1'
+	// check (i-1, j)
+	if i > 0 && board[i-1][j] == w[0] {
+		if backtrackExist(board, i-1, j, w[1:]) {
+			return true
+		}
+	}
+	// check (i+1, j)
+	if i < len(board)-1 && board[i+1][j] == w[0] {
+		if backtrackExist(board, i+1, j, w[1:]) {
+			return true
+		}
+	}
+	// check (i, j-1)
+	if j > 0 && board[i][j-1] == w[0] {
+		if backtrackExist(board, i, j-1, w[1:]) {
+			return true
+		}
+	}
+	if j < len(board[0])-1 && board[i][j+1] == w[0] {
+		if backtrackExist(board, i, j+1, w[1:]) {
+			return true
+		}
+	}
+	board[i][j] = c
+	return false
+}
