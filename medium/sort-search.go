@@ -106,3 +106,39 @@ func sortColors(a []int) {
 	}
 
 }
+
+func TopKFrequent(nums []int, k int) []int {
+	result := make([]int, 0, k)
+	m := make(map[int]int)
+	for _,j := range nums {
+		m[j] = m[j] + 1
+		//fmt.Println(j, m[j])
+
+		topKHelper(&result,  j, m[j], m)
+	}
+	fmt.Println(m)
+	return result[0:k]
+}
+
+func topKHelper(result *[]int, index, num int, m map[int]int)  {
+	if len(*result) != cap(*result)  &&  num ==  1 {
+		//fmt.Println(index)
+		*result = append(*result, index)
+	} else {
+		tmp := *result
+		exist := false
+		for _,j := range tmp {
+			if j == index {
+				exist = true
+			}
+		}
+		if !exist {
+			for i,j := range tmp {
+				if j != index && m[j] < num {
+					tmp[i] = index
+					break
+				}
+			}
+		}
+	}
+}
