@@ -4,7 +4,10 @@
 
 package medium
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 func sortColor(nums []int) {
 	if len(nums) < 2 {
@@ -110,14 +113,33 @@ func sortColors(a []int) {
 func TopKFrequent(nums []int, k int) []int {
 	result := make([]int, 0, k)
 	m := make(map[int]int)
+	mk := make(map[int][]int)
 	for _,j := range nums {
 		m[j] = m[j] + 1
 		//fmt.Println(j, m[j])
-
 		topKHelper(&result,  j, m[j], m)
 	}
-	fmt.Println(m)
-	return result[0:k]
+
+	for k,v := range m {
+		if mk[v] == nil {
+			mk[v] = []int{k}
+		} else {
+			mk[v] = append(mk[v], k)
+		}
+	}
+	tmp := make([]int, 0, len(mk))
+
+	for k,_ := range mk  {
+		tmp =  append(tmp, k)
+	}
+
+	sort.Ints(tmp)
+
+	for i:=0; i<len(tmp); i++ {
+		result = append(result, mk[tmp[i]]...)
+	}
+
+	return result[len(result) - k :]
 }
 
 func topKHelper(result *[]int, index, num int, m map[int]int)  {
@@ -142,3 +164,33 @@ func topKHelper(result *[]int, index, num int, m map[int]int)  {
 		}
 	}
 }
+
+
+// leetcode's God algorithm
+func topKFrequent(nums []int, k int) []int {
+	res := make([]int, 0, k)
+	// 统计每个数字出现的次数
+	rec := make(map[int]int, len(nums))
+	for _, n := range nums {
+		rec[n]++
+	}
+	// 对出现次数进行排序
+	counts := make([]int, 0, len(rec))
+	for _, c := range rec {
+		counts = append(counts, c)
+	}
+	sort.Ints(counts)
+	// min 是 前 k 个高频数字的底线
+	min := counts[len(counts)-k]
+
+	// 收集所有　不低于　底线的数字
+	for n, c := range rec {
+		if c >= min {
+			res = append(res, n)
+		}
+	}
+
+	return res
+}
+
+
