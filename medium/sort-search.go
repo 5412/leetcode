@@ -193,4 +193,84 @@ func topKFrequent(nums []int, k int) []int {
 	return res
 }
 
+/**
+给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+
+你的算法时间复杂度必须是 O(log n) 级别。
+
+如果数组中不存在目标值，返回 [-1, -1]。
+
+示例 1:
+
+输入: nums = [5,7,7,8,8,10], target = 8
+输出: [3,4]
+示例 2:
+
+输入: nums = [5,7,7,8,8,10], target = 6
+输出: [-1,-1]
+ */
+func SearchRange(nums []int, target int) []int {
+
+	index := searchRangeHelper(nums, 0, len(nums)-1, target)
+	begin := -1
+	end := -1
+	if index > -1 {
+		begin = index
+		end = index
+		for index > -1 && nums[index] == target {
+			begin = index
+			index--
+		}
+		index = end
+		for index < len(nums) && nums[index] == target {
+			end = index
+			index++
+		}
+	}
+	return []int{begin, end}
+}
+
+// 二分查找目标值 找到返回下标，找不到返回 -1
+func searchRangeHelper(nums []int,begin, end, target int) int {
+	if len(nums) == 0 {
+		return -1
+	}
+	if nums[begin] > target {
+		return -1
+	}
+
+	if nums[end] < target {
+		return -1
+	}
+
+	if begin == end && nums[begin] != target{
+		return -1
+	}
+	middle := (end + begin) / 2
+	if nums[middle] > target {
+		return searchRangeHelper(nums, begin, middle - 1, target)
+	} else if nums[middle] < target {
+		return searchRangeHelper(nums, middle + 1, end, target)
+	} else {
+		return middle
+	}
+}
+
+func searchRangeHelperFind(nums []int,begin, end, target int) int {
+	index := -1
+	for begin <= end {
+		middle := ( begin + end ) / 2
+		if nums[middle] == target {
+			index = middle
+			break
+		}
+		if nums[middle] < target {
+			begin = middle + 1
+		}
+		if nums[middle] > target {
+			end = middle - 1
+		}
+	}
+	return  index
+}
 
