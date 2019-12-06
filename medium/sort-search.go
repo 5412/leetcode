@@ -274,3 +274,251 @@ func searchRangeHelperFind(nums []int,begin, end, target int) int {
 	return  index
 }
 
+/**
+给出一个区间的集合，请合并所有重叠的区间。
+
+示例 1:
+
+输入: [[1,3],[2,6],[8,10],[15,18]]
+输出: [[1,6],[8,10],[15,18]]
+解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+示例 2:
+
+输入: [[1,4],[4,5]]
+输出: [[1,5]]
+解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
+ */
+
+func Merge(inputs [][]int) [][]int {
+	if len(inputs) == 0 {
+		return nil
+	}
+	sort.Slice(inputs, func(i, j int) bool {
+		return inputs[i][0] < inputs[j][0]
+	})
+	begin := inputs[0]
+	result := make([][]int, 0)
+	for i:=1; i<len(inputs); i++ {
+		if inputs[i][0] <= begin[1] {
+			if begin[1] < inputs[i][1] {
+				begin[1] = inputs[i][1]
+			}
+		} else {
+			result = append(result, begin)
+			begin = inputs[i]
+		}
+	}
+	result = append(result, begin)
+	return result
+}
+
+// leetcode's God algorithm 原地计算
+type TwoDArray [][]int
+
+func (s TwoDArray) Len() int {
+	return len(s)
+}
+
+func (s TwoDArray) Swap(i, j int) {
+	s[i][0], s[j][0] = s[j][0], s[i][0]
+	s[i][1], s[j][1] = s[j][1], s[i][1]
+}
+
+func (s TwoDArray) Less(i, j int) bool {
+	return s[i][0] < s[j][0]
+}
+func merge(intervals [][]int) [][]int {
+	_len := len(intervals)
+	_index := 0
+	if _len == 0 {
+		return intervals
+	}
+	sort.Sort(TwoDArray(intervals))
+	for i := 1; i < _len; i++ {
+		if intervals[i][0] <= intervals[i - 1][1] {
+			intervals[i][0] = intervals[i - 1][0]
+			if intervals[i][1] < intervals[i - 1][1] {
+				intervals[i][1] = intervals[i - 1][1]
+			}
+		} else {
+			intervals[_index] = intervals[i - 1]
+			_index++
+		}
+	}
+	intervals[_index] = intervals[_len - 1]
+	intervals = intervals[:_index + 1]
+	return intervals
+}
+
+/**
+假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+
+( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [5,6,7,0,1,2,4] )。
+
+搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+
+你可以假设数组中不存在重复的元素。
+
+你的算法时间复杂度必须是 O(log n) 级别。
+ */
+func SearchAndReverse(inputs []int, target int) int {
+	left := 0
+	right := len(inputs) - 1
+	fmt.Println(inputs)
+	for left <= right {
+		mid := left + (right - left) / 2
+		fmt.Println(left, right, mid)
+		if inputs[mid] == target {
+			return mid
+		}
+		if inputs[mid] >= inputs[left] { // mid 左边有序
+			if inputs[mid] > target && inputs[left] <= target {
+				right = mid - 1
+			} else {
+				left = mid + 1
+			}
+		} else { // mid 右边有序
+			if inputs[mid] < target && inputs[right] >= target {
+				left = mid + 1
+			} else {
+				right = mid - 1
+			}
+		}
+	}
+	return -1
+}
+
+func search(nums []int, target int) int {
+	if len(nums) == 0 {
+		return -1
+	}
+	min := min(nums)
+
+	if nums[min] == target {
+		return min
+	}
+
+	// 数组没有旋转
+	if min == 0 {
+		return binarySearch(nums, 0, len(nums)-1, target)
+	}
+
+	// 在后一半升序数组中找
+	if target < nums[0] {
+		return binarySearch(nums, min, len(nums)-1, target)
+	} else { // 在前一半升序数组中找
+		return binarySearch(nums, 0, min, target)
+	}
+}
+
+// 寻找旋转点，即数组的最小值
+func min(nums []int) int {
+	p1 := 0
+	p2 := len(nums) - 1
+	// 将mid设置为p1,一旦发现第一个数小于最后一个数，说明数组旋转了0位
+	// 即没旋转，可以直接返回答案nums[p1],即第一个数
+	mid := p1
+	for nums[p1] >= nums[p2] {
+		// 说明p1指向了第一个递增数组的尾部
+		// p2指向了第二个递增数组的头部，即最小值
+		if p2-p1 == 1 {
+			mid = p2
+			break
+		}
+
+		mid = (p1 + p2) / 2
+
+		// 如果p1,mid,p2三者指向的数字相同，则没法判断最小值位于什么位置，只能遍历查找
+		if nums[p1] == nums[mid] && nums[mid] == nums[p2] {
+			res := p1
+			for i := p1; i <= p2; i++ {
+				if nums[res] > nums[i] {
+					res = i
+				}
+			}
+			return res
+		}
+
+		if nums[mid] >= nums[p1] { // 说明mid位于第一个递增数组
+			p1 = mid
+		} else if nums[mid] <= nums[p2] { // 说明mid位于第二个递增数组
+			p2 = mid
+		}
+
+	}
+	return mid
+}
+
+// 二分查找
+func binarySearch(nums []int, i, j, t int) int {
+	for i <= j {
+		mid := (i + j) / 2
+		if nums[mid] == t {
+			return mid
+		} else if nums[mid] < t {
+			i = mid + 1
+		} else {
+			j = mid - 1
+		}
+	}
+	return -1
+}
+
+/**
+编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
+
+每行的元素从左到右升序排列。
+每列的元素从上到下升序排列。
+示例:
+
+现有矩阵 matrix 如下：
+
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+给定 target = 5，返回 true。
+
+给定 target = 20，返回 false。
+ */
+
+func SearchMatrix(matrix [][]int, target int) bool {
+	x, y := 0, 0
+	w, h := len(matrix[0]) - 1, len(matrix) - 1
+	for x <= w && y <= h  {
+		midX := (x + w) / 2
+		midY := (y + h) / 2
+		if midX == x && midY == y {
+			switch  {
+			case matrix[x][y] == target, matrix[x][w] == target,matrix[x][h] == target,matrix[w][h] == target:
+				return true
+			default:
+				return false
+			}
+		}
+		if matrix[x][y] == target {
+			return  true
+		}
+		if matrix[y][midX] == target {
+			return true
+		}
+		if matrix[midY][x] == target {
+			return true
+		}
+		if matrix[y][midX] > target {
+			w = midX
+		} else {
+			x = midX
+		}
+
+		if matrix[midY][x] > target {
+			h = midY
+		} else {
+			y = midY
+		}
+	}
+	return false
+}
