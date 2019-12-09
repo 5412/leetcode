@@ -485,40 +485,70 @@ func binarySearch(nums []int, i, j, t int) int {
 给定 target = 20，返回 false。
  */
 
+// 规律 左下角(x,y) 为竖向最大值，横项最小值，
+// 如果其比目标值小，说明竖向肯定不包含目标值，
+// 如果其比目标值大说明横向这一排肯定不包含目标值
 func SearchMatrix(matrix [][]int, target int) bool {
-	x, y := 0, 0
-	w, h := len(matrix[0]) - 1, len(matrix) - 1
-	for x <= w && y <= h  {
-		midX := (x + w) / 2
-		midY := (y + h) / 2
-		if midX == x && midY == y {
-			switch  {
-			case matrix[x][y] == target, matrix[x][w] == target,matrix[x][h] == target,matrix[w][h] == target:
-				return true
-			default:
-				return false
-			}
-		}
-		if matrix[x][y] == target {
-			return  true
-		}
-		if matrix[y][midX] == target {
-			return true
-		}
-		if matrix[midY][x] == target {
-			return true
-		}
-		if matrix[y][midX] > target {
-			w = midX
-		} else {
-			x = midX
-		}
+	if len(matrix) == 0 {
+		return false
+	}
 
-		if matrix[midY][x] > target {
-			h = midY
+	row := len(matrix) - 1
+	col := 0
+
+	for row >= 0 && col <len(matrix[0]) {
+		v := matrix[row][col]
+		if v == target {
+			return true
+		} else if v > target {
+			row--
 		} else {
-			y = midY
+			col++
 		}
 	}
+
+	return false
+}
+
+func searchMatrix(matrix [][]int, target int) bool {
+	column := len( matrix )
+	if 0 == column { return false }
+	length := len( matrix[0] )
+	if 0 == length || matrix[0][0] > target || matrix[column-1][length-1] < target { return false }
+
+	low := 0
+	for i := 0; i < column; i++{
+		low = i
+		if target == matrix[i][0] {
+			return true
+		}else if target < matrix[i][0] {
+			break
+		}
+	}
+
+	high := 0
+	for i := 0; i <= low; i++{
+		high = i
+		if target == matrix[i][length-1]{
+			return true
+		}else if target < matrix[i][length-1] {
+			break
+		}
+	}
+
+	i := high
+	j := 0
+	//ri := 0
+	//rj := 0
+	for ; i <= low; i++{
+		//ri = i
+		for j = 0; j < length; j++{
+			//rj = j
+			if target == matrix[i][j] {
+				return true
+			}
+		}
+	}
+
 	return false
 }

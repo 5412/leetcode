@@ -41,7 +41,9 @@ func TestSearchMatrix(t *testing.T) {
 	fmt.Println(SearchMatrix(inputs, 23))
 	fmt.Println(SearchMatrix(inputs, 26))
 	fmt.Println(SearchMatrix(inputs, 31))
-	fmt.Println(SearchMatrix(inputs, 10))
-
-
+	fmt.Println(SearchMatrix(inputs, 20))
+	input := [][]int{
+		{1,   4,},
+	}
+	fmt.Println(SearchMatrix(input, 20))
 }
