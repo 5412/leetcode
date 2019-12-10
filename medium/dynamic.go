@@ -59,7 +59,6 @@ func canJump(nums []int) bool {
 例如，上图是一个7 x 3 的网格。有多少可能的路径？
 说明：m 和 n 的值均不超过 100。
 示例 1:
-
 输入: m = 3, n = 2
 输出: 3
 解释:
@@ -67,6 +66,8 @@ func canJump(nums []int) bool {
 1. 向右 -> 向右 -> 向下
 2. 向右 -> 向下 -> 向右
 3. 向下 -> 向右 -> 向右
+必须向右2次向下一次
+math C(3,1) = 3
  */
 
 func UniquePaths(m int, n int) int {
