@@ -18,3 +18,9 @@ func TestUniquePaths(t *testing.T) {
 	fmt.Println(UniquePaths(23,12))
 	fmt.Println("----------")
 }
+
+func TestCoinChange(t *testing.T) {
+	fmt.Println("2-----------------------2")
+	fmt.Println(CoinChange([]int{4, 3}, 10))
+	fmt.Println("2-----------------------2")
+}

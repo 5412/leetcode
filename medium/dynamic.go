@@ -1,6 +1,9 @@
 package medium
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 /**
 给定一个非负整数数组，你最初位于数组的第一个位置。
@@ -90,4 +93,70 @@ func optUniquePaths(m, n, x, y int) int {
 		return 1
 	}
 	return optUniquePaths(m,n,x-1, y) + optUniquePaths(m,n,x,y-1)
+}
+
+/**
+给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+dp[amount] = min(dp[amount-coins[j] + 1)
+示例 1:
+
+输入: coins = [1, 2, 5], amount = 11
+输出: 3
+解释: 11 = 5 + 5 + 1
+示例 2:
+
+输入: coins = [2], amount = 3
+输出: -1
+说明:
+你可以认为每种硬币的数量是无限的。
+ */
+func CoinChange(coins []int, amount int) int {
+	res := make(map[int]int)
+	for i:=0; i<amount+1; i++ {
+		res[i] = math.MaxInt64 - 1
+	}
+	res[0] = 0
+	for _, coin := range coins {
+		for i:=coin; i<amount + 1; i++ {
+			if i - coin < 0 {
+				continue
+			}
+			res[i] = selectMin(res[i], res[i-coin] + 1)
+		}
+	}
+	if res[amount] < math.MaxInt64 - 2 {
+		return res[amount]
+	}
+	return  0
+}
+
+func selectMin(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+
+//本题归结为完全背包问题
+//直接套用完全背包的套路就行
+func coinChange(coins []int, amount int) int {
+	dp:=make([]int,amount+1)
+	//初始值
+	for i:=0;i<=amount;i++{
+		dp[i]=amount+1
+	}
+	dp[0]=0
+
+	for i:=1;i<=len(coins);i++{
+		for j:=0;j<=amount;j++{
+			if j >= coins[i-1]{
+				dp[j]=selectMin(dp[j],dp[j-coins[i-1]]+1)
+			}
+		}
+	}
+	if dp[amount] > amount{
+		return -1
+	}else{
+		return dp[amount]
+	}
 }
