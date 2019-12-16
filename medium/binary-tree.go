@@ -15,10 +15,10 @@ func InorderTraversal(root *TreeNode) []int {
 	node := root
 	for node != nil || len(middles) != 0 {
 		if node != nil {
-			middles = append(middles,node)
+			middles = append(middles, node)
 			node = node.Left
-		} else  {
-			node = middles[len(middles) - 1]
+		} else {
+			node = middles[len(middles)-1]
 			tmp := make([]*TreeNode, len(middles)-1)
 			copy(tmp, middles[:len(middles)-1])
 			nums = append(nums, node.Val)
@@ -32,7 +32,7 @@ func InorderTraversal(root *TreeNode) []int {
 // 递归方式的中序遍历
 func InorderTraversalRecursion(root *TreeNode) []int {
 	var nums []int
-	if root != nil  {
+	if root != nil {
 		if root.Left != nil {
 			nums = append(nums, InorderTraversal(root.Left)...)
 		}
@@ -52,7 +52,7 @@ func ZigzagLevelOrder(root *TreeNode) [][]int {
 	for len(layers) != 0 {
 		temp := make([]*TreeNode, 0)
 		nums := make([]int, 0)
-		for _,node := range(layers) {
+		for _, node := range layers {
 			nums = append(nums, node.Val)
 			if node.Left != nil {
 				temp = append(temp, node.Left)
@@ -61,9 +61,9 @@ func ZigzagLevelOrder(root *TreeNode) [][]int {
 				temp = append(temp, node.Right)
 			}
 		}
-		if i % 2 == 0 {
+		if i%2 == 0 {
 			tmp := make([]int, 0)
-			for j:= len(nums) -1;j>=0; j-- {
+			for j := len(nums) - 1; j >= 0; j-- {
 				tmp = append(tmp, nums[j])
 			}
 			nums = tmp
@@ -75,39 +75,38 @@ func ZigzagLevelOrder(root *TreeNode) [][]int {
 	return result
 }
 
-
 func ZigzagLevelOrderLeetcode(root *TreeNode) [][]int {
-	if root==nil{
+	if root == nil {
 		return nil
 	}
 	stack := []*TreeNode{root}
 	leftFlag := false
-	ret := make([][]int,0,10)
-	for len(stack)>0{
-		temp := make([]int,0,len(stack))
-		newStack := make([]*TreeNode,0,len(stack))
-		for i:=len(stack)-1;i>=0;i--{
-			temp  = append(temp,stack[i].Val)
+	ret := make([][]int, 0, 10)
+	for len(stack) > 0 {
+		temp := make([]int, 0, len(stack))
+		newStack := make([]*TreeNode, 0, len(stack))
+		for i := len(stack) - 1; i >= 0; i-- {
+			temp = append(temp, stack[i].Val)
 			// 从左边开始
-			if leftFlag{
-				if stack[i].Right!=nil{
-					newStack = append(newStack,stack[i].Right)
+			if leftFlag {
+				if stack[i].Right != nil {
+					newStack = append(newStack, stack[i].Right)
 				}
-				if stack[i].Left!=nil{
-					newStack = append(newStack,stack[i].Left)
+				if stack[i].Left != nil {
+					newStack = append(newStack, stack[i].Left)
 				}
-			}else{
-				if stack[i].Left!=nil{
-					newStack = append(newStack,stack[i].Left)
+			} else {
+				if stack[i].Left != nil {
+					newStack = append(newStack, stack[i].Left)
 				}
-				if stack[i].Right!=nil{
-					newStack = append(newStack,stack[i].Right)
+				if stack[i].Right != nil {
+					newStack = append(newStack, stack[i].Right)
 				}
 			}
 
 		}
 		leftFlag = !leftFlag
-		ret = append(ret,temp)
+		ret = append(ret, temp)
 		stack = newStack
 	}
 	return ret
@@ -118,8 +117,8 @@ func BuildTree(preorder []int, inorder []int) *TreeNode {
 	if len(preorder) == 0 || len(inorder) == 0 {
 		return nil
 	}
-	node := &TreeNode{preorder[0], nil, nil}
-	for i:=0; i<len(inorder); i++ {
+	node := &TreeNode{Val: preorder[0]}
+	for i := 0; i < len(inorder); i++ {
 		if preorder[0] == inorder[i] {
 			if i-1 >= 0 {
 				node.Left = BuildTree(preorder[1:i+1], inorder[0:i])

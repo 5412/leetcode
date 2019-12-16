@@ -15,13 +15,13 @@ func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	var head *ListNode
 
 	for l1 != nil || l2 != nil {
-		switch  {
+		switch {
 		case l1 != nil && l2 != nil:
 			sum := (l1.Val + l2.Val + carry) % 10
 			carry = (l1.Val + l2.Val + carry) / 10
 			tmpNode := ListNode{
-				Val:sum,
-				Next:nil,
+				Val:  sum,
+				Next: nil,
 			}
 			if result == nil {
 				result = &tmpNode
@@ -36,8 +36,8 @@ func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 			sum := (l1.Val + carry) % 10
 			carry = (l1.Val + carry) / 10
 			tmpNode := ListNode{
-				Val:sum,
-				Next:nil,
+				Val:  sum,
+				Next: nil,
 			}
 
 			result.Next = &tmpNode
@@ -47,8 +47,8 @@ func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 			sum := (l2.Val + carry) % 10
 			carry = (l2.Val + carry) / 10
 			tmpNode := ListNode{
-				Val:sum,
-				Next:nil,
+				Val:  sum,
+				Next: nil,
 			}
 			carry = (l2.Val + carry) / 10
 			result.Next = &tmpNode
@@ -67,8 +67,8 @@ func AddTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
 	if carry != 0 {
 		tmpNode := ListNode{
-			Val:carry,
-			Next:nil,
+			Val:  carry,
+			Next: nil,
 		}
 		result.Next = &tmpNode
 	}
@@ -95,7 +95,7 @@ func AddTwoNumbers2(l1 *ListNode, l2 *ListNode) *ListNode {
 		carry = sum / 10
 		val := sum % 10
 
-		node := &ListNode{val, nil}
+		node := &ListNode{Val: val}
 		if head == nil {
 			head = node
 		}
@@ -108,9 +108,9 @@ func AddTwoNumbers2(l1 *ListNode, l2 *ListNode) *ListNode {
 	}
 
 	if carry != 0 {
-		node := &ListNode{carry, nil}
+		node := &ListNode{Val: carry}
 		if head == nil {
-			 head = node
+			head = node
 		} else {
 			tail.Next = node
 		}
@@ -124,7 +124,7 @@ func OddEvenList(head *ListNode) *ListNode {
 	}
 	walk := head
 	var (
-		odd *ListNode
+		odd  *ListNode
 		even *ListNode
 	)
 	index := 2
@@ -144,7 +144,7 @@ func OddEvenList(head *ListNode) *ListNode {
 	return head
 }
 
-func insertListAtNode(n1 *ListNode, n2 *ListNode) * ListNode {
+func insertListAtNode(n1 *ListNode, n2 *ListNode) *ListNode {
 	if n1 == nil {
 		n1 = n2
 	} else {
@@ -155,16 +155,15 @@ func insertListAtNode(n1 *ListNode, n2 *ListNode) * ListNode {
 	return n2
 }
 
+// leetcode's God algorithm
 
-// leetcode's God algorithm 
-
-func OddEvenListLeet(head *ListNode) *ListNode  {
-	if head == nil{
+func OddEvenListLeet(head *ListNode) *ListNode {
+	if head == nil {
 		return nil
 	}
-	odd,even,evenh := head,head.Next,head.Next
-	for even != nil && even.Next != nil{
-		odd.Next,even.Next = even.Next,even.Next.Next
+	odd, even, evenh := head, head.Next, head.Next
+	for even != nil && even.Next != nil {
+		odd.Next, even.Next = even.Next, even.Next.Next
 		odd = odd.Next
 		even = even.Next
 	}
@@ -178,14 +177,14 @@ func GetIntersectionNode(headA, headB *ListNode) *ListNode {
 	if scanA == nil || scanB == nil {
 		return nil
 	}
-	for scanA != scanB  {
-		if scanA == nil  {
+	for scanA != scanB {
+		if scanA == nil {
 			scanA = headB
 		} else {
 			scanA = scanA.Next
 		}
 
-		if scanB == nil  {
+		if scanB == nil {
 			scanB = headA
 		} else {
 			scanB = scanB.Next
