@@ -160,3 +160,83 @@ func coinChange(coins []int, amount int) int {
 		return dp[amount]
 	}
 }
+
+/**
+  Longest Increasing Subsequence
+给定一个无序的整数数组，找到其中最长上升子序列的长度。
+示例:
+
+输入: [10,9,2,5,3,7,101,18]
+输出: 4
+解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+说明:
+dp[i] = dp[i-1] + 1 nums[i] > nums[i-1]
+dp[i] = dp[i-1] nums[i] <= nums[i-1]
+可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。
+你算法的时间复杂度应该为 O(n2) 。
+进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
+ */
+func LengthOfLIS(nums []int) int {
+	dp := make([]int, len(nums))
+	for i:=0; i<len(nums); i++ {
+		dp[i] = 1
+	}
+	for j:=1; j<len(nums); j++ {
+		for i:=0; i<j; i++ {
+			if nums[i] < nums[j] {
+				dp[j] = max(dp[i] + 1, dp[j])
+			}
+		}
+	}
+	res := 1
+	for _,v := range dp {
+		res = max(res, v)
+	}
+	return res
+}
+
+func lengthOfLIS(nums []int) int {
+	var minTailLis = make([]int, 0, len(nums))
+
+	for i := 0; i < len(nums); i++ {
+		minTailLis = fillNum(minTailLis, nums[i])
+	}
+
+	return len(minTailLis)
+}
+
+func fillNum(minTailLis []int, num int) []int {
+	if len(minTailLis) == 0 {
+		minTailLis = append(minTailLis, num)
+	}
+	if num > minTailLis[len(minTailLis)-1] {
+		minTailLis = append(minTailLis, num)
+		return minTailLis
+	}
+	index := binarySearchFirstMore(minTailLis, 0, len(minTailLis)-1, num)
+	if index != -1 {
+		minTailLis[index] = num
+	}
+	//fmt.Println(minTailLis)
+	return minTailLis
+}
+
+func binarySearchFirstMore(minTailLis []int, l, r, num int) int {
+
+	if l > r {
+		return -1
+	}
+
+	midIndex := (l + r) / 2
+	midValue := minTailLis[midIndex]
+	if midValue <= num {
+		return binarySearchFirstMore(minTailLis, midIndex+1, r, num)
+	}
+	if midIndex == 0 || minTailLis[midIndex-1] < num {
+		return midIndex
+	}
+	if minTailLis[midIndex-1] == num {
+		return -1
+	}
+	return binarySearchFirstMore(minTailLis, l, midIndex-1, num)
+}
