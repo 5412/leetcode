@@ -34,7 +34,6 @@ func RotateRight(head *easy.ListNode, k int) *easy.ListNode {
 		return head
 	}
 
-
 	// 快慢指针，当last移动到末尾的时候会移动 链表长度-k 次，first则恰好移动到倒数第k位
 	// 此时只需连接原链表首尾，断开倒数第K位与前节点的链接，并设置链表头节点位倒数第K位节点即可
 
@@ -48,8 +47,6 @@ func RotateRight(head *easy.ListNode, k int) *easy.ListNode {
 	first.Next = nil
 
 	return head
-
-
 
 	//if k == 0 {
 	//	return head
@@ -71,9 +68,6 @@ func RotateRight(head *easy.ListNode, k int) *easy.ListNode {
 	//
 	//k = k%len
 
-
-
-
 	// 超出了时间限制，故而进一步改进
 	//var first *easy.ListNode
 	//var front *easy.ListNode
@@ -90,6 +84,4 @@ func RotateRight(head *easy.ListNode, k int) *easy.ListNode {
 	//	head.Next = first
 	//	k--
 	//}
-
-	return head
 }
