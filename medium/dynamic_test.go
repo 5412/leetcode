@@ -1,10 +1,5 @@
 package medium
 
-import (
-	"fmt"
-	"testing"
-)
-
 //func TestCanJump(t *testing.T) {
 //	//inputs := []int{3,2,1,0,4}
 //	inputs := []int{2,3,1,1,4}
@@ -25,6 +20,6 @@ import (
 //	fmt.Println("2-----------------------2")
 //}
 
-func TestLengthOfLIS(t *testing.T) {
-	fmt.Println(LengthOfLIS([]int{1,3,6,7,9,4,10,5,6}))
-}
+//func TestLengthOfLIS(t *testing.T) {
+//	fmt.Println(LengthOfLIS([]int{1,3,6,7,9,4,10,5,6}))
+//}
