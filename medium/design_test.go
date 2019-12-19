@@ -20,15 +20,15 @@ func TestSerialize(t *testing.T) {
 	node2.Right = &node5
 	fmt.Println("!23123")
 	fmt.Println(Serialize(root))
-	str := "1,2,3,null,null,4,5,null,null,null,null"
-	fmt.Println(Unserialize(str))
-	root3 := Unserialize(str)
-	fmt.Println(root3.Val)
-	fmt.Println(root3.Left.Val)
-	fmt.Println(root3.Right.Val)
-	fmt.Println(root3.Left.Left)
-	fmt.Println(root3.Left.Right)
-	fmt.Println(root3.Left)
-	fmt.Println(root3.Right)
+	//str := "1,2,3,null,null,4,5,null,null,null,null"
+	//fmt.Println(Unserialize(str))
+	//root3 := Unserialize(str)
+	//fmt.Println(root3.Val)
+	//fmt.Println(root3.Left.Val)
+	//fmt.Println(root3.Right.Val)
+	//fmt.Println(root3.Left.Left)
+	//fmt.Println(root3.Left.Right)
+	//fmt.Println(root3.Left)
+	//fmt.Println(root3.Right)
 
 }
