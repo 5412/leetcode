@@ -262,12 +262,6 @@ randomSet.getRandom();
 leetcode's algorithm
  */
 
-import (
-"fmt"
-"math/rand"
-)
-
-
 type RandomizedSet struct {
 	numsMap   map[int]int
 	numsArray []int
