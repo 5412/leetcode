@@ -90,3 +90,95 @@ func TrailingZeroes(n int) int {
 	}
 	return num
 }
+
+/**
+给定一个Excel表格中的列名称，返回其相应的列序号。
+
+例如，
+
+    A -> 1
+    B -> 2
+    C -> 3
+    ...
+    Z -> 26
+    AA -> 27
+    AB -> 28
+    ...
+示例 1:
+
+输入: "A"
+输出: 1
+示例 2:
+
+输入: "AB"
+输出: 28
+示例 3:
+
+输入: "ZY"
+输出: 701
+ */
+
+func TitleToNumber(s string) int {
+	// A = 'A' - 'A' + 1
+	// B = 'B' - 'A' + 1
+	l := len(s)
+	res := 0
+	for i:=0; i<l; i++ {
+		nums := s[i] - 'A' + 1
+		res = res * 26 + int(nums)
+	}
+	return res
+}
+
+/**
+实现 pow(x, n) ，即计算 x 的 n 次幂函数。
+示例 1:
+输入: 2.00000, 10
+输出: 1024.00000
+示例 2:
+输入: 2.10000, 3
+输出: 9.26100
+示例 3:
+输入: 2.00000, -2
+输出: 0.25000
+解释: 2-2 = 1/22 = 1/4 = 0.25
+说明:
+-100.0 < x < 100.0
+n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
+ */
+func MyPow(x float64, n int) float64 {
+	if n < 0 {
+		n = -n
+		x = 1 / x
+	}
+	var pow, sq float64 = 1, x
+	for n>0 {
+		if n&1 != 0 {
+			pow *= sq
+		}
+		sq *= sq
+		n>>=1
+	}
+	return pow
+}
+
+func myPow(x float64, n int) float64 {
+	if n < 0 {
+		x = 1 / x
+		n = -n
+	}
+	return pow(x, n)
+}
+func pow(x float64, n int) float64 {
+	if n == 0 {
+		return 1
+	}
+	half := pow(x, n/2)
+	res := float64(1)
+	if n%2 == 0 {
+		res = half * half
+	} else {
+		res = half * half * x
+	}
+	return res
+}
