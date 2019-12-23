@@ -22,10 +22,14 @@ import (
 //	fmt.Println(TitleToNumber("AA"))
 //}
 
-func TestMyPow(t *testing.T) {
-	fmt.Println(MyPow(2, -1))
-	fmt.Println(MyPow(2, -2))
-	fmt.Println(MyPow(2, -3))
-	fmt.Println(MyPow(2, -4))
-	fmt.Println(MyPow(2, -5))
+//func TestMyPow(t *testing.T) {
+//	fmt.Println(MyPow(2, -1))
+//	fmt.Println(MyPow(2, -2))
+//	fmt.Println(MyPow(2, -3))
+//	fmt.Println(MyPow(2, -4))
+//	fmt.Println(MyPow(2, -5))
+//}
+
+func TestMySqrt(t *testing.T) {
+	fmt.Println(MySqrt(15))
 }
