@@ -12,12 +12,12 @@ package medium
 82 + 22 = 68
 62 + 82 = 100
 12 + 02 + 02 = 1
- */
+*/
 
 func IsHappy(n int) bool {
 	numsMap := make(map[int]int, 0)
 	res := 0
-	for res != 1  {
+	for res != 1 {
 		if _, ok := numsMap[n]; ok {
 			return false
 		}
@@ -25,9 +25,9 @@ func IsHappy(n int) bool {
 		numsMap[n] = n
 		res = 0
 		for n > 0 {
-			num := n%10
+			num := n % 10
 			nums = append(nums, num)
-			res +=  num * num
+			res += num * num
 			n = (n - num) / 10
 		}
 		n = res
@@ -80,11 +80,11 @@ func isHappy(n int) bool {
 1991÷5^4=1991÷625=3.1856,有3个5^4.
 它们的总和：398+79+15+3=495个.
 也就是说,从1到1991的乘法算式里面,可以分解出来的5的质因数共有495个.每一个5与偶数相乘时都会产生一个0.所以共有495个0.
- */
+*/
 
 func TrailingZeroes(n int) int {
 	num := 0
-	for n > 1  {
+	for n > 1 {
 		num += n / 5
 		n = n / 5
 	}
@@ -116,16 +116,16 @@ func TrailingZeroes(n int) int {
 
 输入: "ZY"
 输出: 701
- */
+*/
 
 func TitleToNumber(s string) int {
 	// A = 'A' - 'A' + 1
 	// B = 'B' - 'A' + 1
 	l := len(s)
 	res := 0
-	for i:=0; i<l; i++ {
+	for i := 0; i < l; i++ {
 		nums := s[i] - 'A' + 1
-		res = res * 26 + int(nums)
+		res = res*26 + int(nums)
 	}
 	return res
 }
@@ -145,19 +145,19 @@ func TitleToNumber(s string) int {
 说明:
 -100.0 < x < 100.0
 n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
- */
+*/
 func MyPow(x float64, n int) float64 {
 	if n < 0 {
 		n = -n
 		x = 1 / x
 	}
 	var pow, sq float64 = 1, x
-	for n>0 {
+	for n > 0 {
 		if n&1 != 0 {
 			pow *= sq
 		}
 		sq *= sq
-		n>>=1
+		n >>= 1
 	}
 	return pow
 }
@@ -195,14 +195,14 @@ func pow(x float64, n int) float64 {
 输出: 2
 说明: 8 的平方根是 2.82842...,
      由于返回类型是整数，小数部分将被舍去。
- */
+*/
 
 func MySqrt(x int) int {
 	q := 1
 	check := 1
-	for check > 0  {
+	for check > 0 {
 		q = (q + x/q) / 2
-		check = q * q - x
+		check = q*q - x
 	}
 	return q
 }
@@ -222,4 +222,68 @@ func mySqrt(x int) int {
 		}
 	}
 	return l
+}
+
+/**
+给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+返回被除数 dividend 除以除数 divisor 得到的商。
+示例 1:
+输入: dividend = 10, divisor = 3
+输出: 3
+示例 2:
+输入: dividend = 7, divisor = -3
+输出: -2
+
+说明:
+被除数和除数均为 32 位有符号整数。
+除数不为 0。
+假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−2-31,  2-31 − 1]。本题中，如果除法结果溢出，则返回 231 − 1。
+*/
+
+func Divide(dividend int, divisor int) int {
+	res, c := 0, 1
+	var flag bool
+	switch {
+	case dividend > 0 && divisor < 0:
+		{
+			divisor = -divisor
+			flag = false
+		}
+	case dividend < 0 && divisor > 0:
+		{
+
+			dividend = -dividend
+			flag = false
+
+		}
+	case dividend < 0 && divisor < 0:
+		{
+
+			dividend = -dividend
+			divisor = -divisor
+			flag = true
+
+		}
+	default:
+		flag = true
+	}
+	for dividend >= divisor<<1 {
+		divisor <<= 1
+		c <<= 1
+	}
+	for c > 0 && dividend > 0 {
+		if dividend >= divisor {
+			dividend -= divisor
+			res += c
+		}
+		c >>= 1
+		divisor >>= 1
+	}
+	if !flag {
+		res = -res
+	}
+	if !(res >= int(-0x80000000) && res <= int(0x7FFFFFFF)) {
+		return int(0x7FFFFFFF)
+	}
+	return res
 }

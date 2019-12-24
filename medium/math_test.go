@@ -30,6 +30,10 @@ import (
 //	fmt.Println(MyPow(2, -5))
 //}
 
-func TestMySqrt(t *testing.T) {
-	fmt.Println(MySqrt(15))
+// func TestMySqrt(t *testing.T) {
+// 	fmt.Println(MySqrt(15))
+// }
+
+func TestDivide(t *testing.T) {
+	fmt.Println(Divide(-2147483648, -1))
 }
