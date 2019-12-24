@@ -34,6 +34,16 @@ import (
 // 	fmt.Println(MySqrt(15))
 // }
 
-func TestDivide(t *testing.T) {
-	fmt.Println(Divide(-2147483648, -1))
+//func TestDivide(t *testing.T) {
+//	fmt.Println(Divide(-2147483648, -1))
+//}
+
+func TestFractionToDecimal(t *testing.T) {
+
+	fmt.Println(FractionToDecimal(2,3))
+
+
+
+
+
 }

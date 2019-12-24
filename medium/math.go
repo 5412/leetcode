@@ -1,5 +1,10 @@
 package medium
 
+import (
+	"fmt"
+	"strconv"
+)
+
 /**
 编写一个算法来判断一个数是不是“快乐数”。
 一个“快乐数”定义为：对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和，然后重复这个过程直到这个数变为 1，也可能是无限循环但始终变不到 1。如果可以变为 1，那么这个数就是快乐数。
@@ -286,4 +291,120 @@ func Divide(dividend int, divisor int) int {
 		return int(0x7FFFFFFF)
 	}
 	return res
+}
+
+/**
+给定两个整数，分别表示分数的分子 numerator 和分母 denominator，以字符串形式返回小数。
+如果小数部分为循环小数，则将循环的部分括在括号内。
+示例 1:
+输入: numerator = 1, denominator = 2
+输出: "0.5"
+示例 2:
+输入: numerator = 2, denominator = 1
+输出: "2"
+示例 3:
+输入: numerator = 2, denominator = 3
+输出: "0.(6)"
+ */
+
+func FractionToDecimal(numerator int, denominator int) string {
+	flag := false
+	if (numerator>0 && denominator<0) || (numerator<0 && denominator>0)  {
+		flag = true
+	}
+	if numerator < 0 {
+		numerator = -numerator
+	}
+	if denominator < 0 {
+		denominator = -denominator
+	}
+	partOne := numerator / denominator
+	partTwo := numerator % denominator
+	nums := make([]int, 0)
+	m := make(map[int]int)
+	ini := false
+	for partTwo != 0 {
+		if _, ok := m[partTwo]; ok {
+			fmt.Println(partTwo, ok, m, nums)
+			ini = true
+			break
+		}
+		nums = append(nums, partTwo * 10 / denominator)
+		m[partTwo] = len(nums) - 1
+		partTwo = partTwo * 10 % denominator
+	}
+	res := strconv.Itoa(partOne)
+	if len(nums) > 0 {
+		res += "."
+		for i:=0; i<len(nums); i++ {
+			if ini && i == m[partTwo] {
+				res += "("
+				res += strconv.Itoa(nums[i])
+			} else {
+				res += strconv.Itoa(nums[i])
+			}
+		}
+	}
+	if ini {
+		res += ")"
+	}
+	if flag {
+		res = "-" + res
+	}
+	return res
+}
+
+func fractionToDecimal(numerator int, denominator int) string {
+	if numerator == 0 {
+		return "0"
+	}
+
+	sign := 1
+	if (numerator < 0 && denominator > 0) || (numerator > 0 && denominator < 0) {
+		sign = -1
+	}
+
+	if numerator < 0 {
+		numerator *= -1
+	}
+	if denominator < 0 {
+		denominator *= -1
+	}
+
+	var tmp string
+	if sign == -1 {
+		tmp = "-"
+	}
+
+	n := numerator/denominator
+	r := numerator%denominator
+	tmp += strconv.Itoa(n)
+	if r == 0 {
+		return tmp
+	}
+
+	tmp += "."
+	m := make(map[int]int)
+	m[r] = len(tmp)
+	i := len(tmp)
+	for {
+		numerator = r*10
+		n = numerator/denominator
+		r = numerator%denominator
+		tmp += string(n+'0')
+
+		if r == 0 {
+			return tmp
+		}
+
+		v,ok := m[r]
+		if ok {
+			tmp = tmp[0:v] + "(" + tmp[v:] + ")"
+			return tmp
+		}
+		i++
+		m[r] = i
+	}
+
+	return ""
 }
