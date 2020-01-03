@@ -5,8 +5,8 @@
 package structs
 
 type TreeNode struct {
-	Val int
-	Left *TreeNode
+	Val   int
+	Left  *TreeNode
 	Right *TreeNode
 }
 
@@ -15,8 +15,8 @@ func GeneralBinaryTree(nums []int) *TreeNode {
 		nodes []*TreeNode
 		root  *TreeNode
 	)
-	for _,v := range(nums) {
-		node := &TreeNode{v, nil,nil}
+	for _, v := range nums {
+		node := &TreeNode{v, nil, nil}
 		if len(nodes) == 0 {
 			root = node
 			nodes = append(nodes, node)
