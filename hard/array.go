@@ -10,25 +10,25 @@ import "sort"
 说明: 请不要使用除法，且在 O(n) 时间复杂度内完成此题。
 进阶：
 你可以在常数空间复杂度内完成这个题目吗？（ 出于对空间复杂度分析的目的，输出数组不被视为额外空间。）
- */
+*/
 func ProductExceptSelf(nums []int) []int {
 	out := make([]int, len(nums))
 	out[0] = 1
 	if len(nums) == 2 {
 		return []int{nums[1], nums[0]}
 	}
-	for i:=1; i<len(nums);i++ {
+	for i := 1; i < len(nums); i++ {
 		out[i] = out[0] * nums[0]
 		out[0] *= nums[i]
 	}
 	outAfter := make([]int, len(nums))
 	end := len(nums) - 1
 	outAfter[end] = 1
-	for j:=len(nums) - 2; j>0;j-- {
-		outAfter[j] = outAfter[end]  * nums[end]
+	for j := len(nums) - 2; j > 0; j-- {
+		outAfter[j] = outAfter[end] * nums[end]
 		outAfter[end] *= nums[j]
 	}
-	for i:=1; i<end;i++ {
+	for i := 1; i < end; i++ {
 		out[i] = out[i] * outAfter[i]
 	}
 	out[end] = outAfter[end]
@@ -38,12 +38,12 @@ func ProductExceptSelf(nums []int) []int {
 func productExceptSelf(nums []int) []int {
 	result := make([]int, len(nums))
 	k := 1
-	for i:=0; i<len(nums); i++ {
+	for i := 0; i < len(nums); i++ {
 		result[i] = k
 		k *= nums[i]
 	}
 	k = 1
-	for j:=len(nums)-1; j>=0; j-- {
+	for j := len(nums) - 1; j >= 0; j-- {
 		result[j] *= k
 		k *= nums[j]
 	}
@@ -269,4 +269,101 @@ func maxArea(height []int) int {
 		}
 	}
 	return maxArea
+}
+
+/**
+根据百度百科，生命游戏，简称为生命，是英国数学家约翰·何顿·康威在1970年发明的细胞自动机。
+给定一个包含 m × n 个格子的面板，每一个格子都可以看成是一个细胞。每个细胞具有一个初始状态 live（1）即为活细胞， 或 dead（0）即为死细胞。每个细胞与其八个相邻位置（水平，垂直，对角线）的细胞都遵循以下四条生存定律：
+如果活细胞周围八个位置的活细胞数少于两个，则该位置活细胞死亡；
+如果活细胞周围八个位置有两个或三个活细胞，则该位置活细胞仍然存活；
+如果活细胞周围八个位置有超过三个活细胞，则该位置活细胞死亡；
+如果死细胞周围正好有三个活细胞，则该位置死细胞复活；
+根据当前状态，写一个函数来计算面板上细胞的下一个（一次更新后的）状态。下一个状态是通过将上述规则同时应用于当前状态下的每个细胞所形成的，其中细胞的出生和死亡是同时发生的。
+示例:
+输入:
+[
+  [0,1,0],
+  [0,0,1],
+  [1,1,1],
+  [0,0,0]
+]
+输出:
+[
+  [0,0,0],
+  [1,0,1],
+  [0,1,1],
+  [0,1,0]
+]
+进阶:
+你可以使用原地算法解决本题吗？请注意，面板上所有格子需要同时被更新：你不能先更新某些格子，然后使用它们的更新后的值再更新其他格子。
+本题中，我们使用二维数组来表示面板。原则上，面板是无限的，但当活细胞侵占了面板边界时会造成问题。你将如何解决这些问题？
+*/
+
+func gameOfLife(board [][]int) {
+	m := len(board)
+	if m == 0 {
+		return
+	}
+	n := len(board[0])
+	tempBoard := make([][]int, m)
+	for i := 0; i < m; i++ {
+		tmp := make([]int, n)
+		tempBoard[i] = tmp
+		for j := 0; j < n; j++ {
+			tempBoard[i][j] = gameOflifeHelper(board, i, j, m, n)
+		}
+	}
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			switch {
+			case board[i][j] == 1:
+				if tempBoard[i][j] < 2 || tempBoard[i][j] > 3 {
+					board[i][j] = 0
+				}
+			case board[i][j] == 0:
+				if tempBoard[i][j] == 3 {
+					board[i][j] = 1
+				}
+			}
+		}
+	}
+}
+
+func gameOflifeHelper(board [][]int, i, j, m, n int) int {
+	res := 0
+	if i < 0 || i >= m {
+		return res
+	}
+
+	if j < 0 || j >= n {
+		return res
+	}
+	if i-1 >= 0 && j-1 >= 0 {
+		res += board[i-1][j-1]
+	}
+	if i-1 >= 0 {
+		res += board[i-1][j]
+	}
+	if i-1 >= 0 && j+1 < n {
+		res += board[i-1][j+1]
+	}
+
+	if j-1 >= 0 {
+		res += board[i][j-1]
+	}
+	if j+1 < n {
+		res += board[i][j+1]
+	}
+
+	if i+1 < m && j-1 >= 0 {
+		res += board[i+1][j-1]
+	}
+	if i+1 < m {
+		res += board[i+1][j]
+	}
+	if i+1 < m && j+1 < n {
+		res += board[i+1][j+1]
+	}
+
+	return res
 }
