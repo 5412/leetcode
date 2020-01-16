@@ -1,6 +1,8 @@
 package hard
 
-import "sort"
+import (
+	"sort"
+)
 
 /**
 给定长度为 n 的整数数组 nums，其中 n > 1，返回输出数组 output ，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。
@@ -374,4 +376,81 @@ func gameOflifeHelper(board [][]int, i, j, m, n int) int {
 	}
 
 	return res
+}
+
+/**
+  第一个缺失的正数
+给定一个未排序的整数数组，找出其中没有出现的最小的正整数。
+
+示例 1:
+
+输入: [1,2,0]
+输出: 3
+示例 2:
+
+输入: [3,4,-1,1]
+输出: 2
+示例 3:
+
+输入: [7,8,9,11,12]
+输出: 1
+说明:
+
+你的算法的时间复杂度应为O(n)，并且只能使用常数级别的空间。
+*/
+
+func FirstMissingPositive(nums []int) int {
+	for i, v := range nums {
+		if v <= 0 || v >= len(nums) {
+			continue
+		}
+		for nums[v-1] != v {
+			nums[v-1], nums[i] = nums[i], nums[v-1]
+			v = nums[i]
+			if v <= 0 || v >= len(nums) {
+				break
+			}
+		}
+	}
+
+	for i, v := range nums {
+		if v != i+1 {
+			return i + 1
+		}
+	}
+	return len(nums) + 1
+}
+
+func abs(n int) int {
+	if n <= 0 {
+		return 0 - n
+	}
+	return n
+}
+
+func FirstMissingPositive1(nums []int) int {
+	found1 := false
+	length := len(nums)
+	for i := 0; i < length; i++ {
+		if nums[i] == 1 {
+			found1 = true
+		} else if nums[i] > length || nums[i] <= 0 {
+			nums[i] = 1
+		}
+	}
+	if !found1 {
+		return 1
+	}
+	for i := 0; i < length; i++ {
+		num := abs(nums[i])
+		if nums[num-1] > 0 {
+			nums[num-1] = -nums[num-1]
+		}
+	}
+	for i := 0; i < length; i++ {
+		if nums[i] > 0 {
+			return i + 1
+		}
+	}
+	return length + 1
 }
