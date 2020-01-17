@@ -1,6 +1,7 @@
 package hard
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -440,7 +441,27 @@ func FirstMissingPositive1(nums []int) int {
 // 输入: [100, 4, 200, 1, 3, 2]
 // 输出: 4
 // 解释: 最长连续序列是 [1, 2, 3, 4]。它的长度为 4。
+// 针对O(n)时间复杂度的实现思路：遍历nums[]数组，利用Map存储元素nums[i]的值以及其所在连续序列的长度，此时基本只有两种情况：
+// 数组中出现过元素nums[i]-1或nums[i]+1，意味着当前元素可以归入左或右序列，那么此时假如左右序列的长度分别为left、right，那么显然加入nums[i]后，这整段序列的长度为 1+left+right，而由于这一整段序列中，只可能在左右两端扩展，所以只需要更新左右两端的value值即可。
+// 数组中未出现过元素nums[i]-1或nums[i]+1，意味着当前元素所在的连续序列就是自身（只有自己一个元素）。
 func LongestConsecutive(nums []int) int {
+	res := 0
 	longMap := make(map[int]int, len(nums)/2)
-	return 0
+	for _, v := range nums {
+		if _, ok := longMap[v]; ok {
+			continue
+		}
+		left := longMap[v-1]
+		right := longMap[v+1]
+		longMap[v] = 1 + right + left
+		res = max(res, longMap[v])
+		if left != 0 {
+			longMap[v-left] = longMap[v]
+		}
+		if right != 0 {
+			longMap[v+right] = longMap[v]
+		}
+	}
+	fmt.Println(longMap)
+	return res
 }
