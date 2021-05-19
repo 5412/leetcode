@@ -4,6 +4,12 @@ package leetcode
  * @lc app=leetcode.cn id=993 lang=golang
  *
  * [993] 二叉树的堂兄弟节点
+ * sum(j,k) = sum[j] ^ sum[k]
+ * sum[i] ^ sum[j] = sum[j] ^ sum[k] => sum[i] = sum[k]
+ * 与 j 无关, 个数为 k-i
+ * 对于下标 k 所有满足的 i 对结果的贡献为
+ * (k-ix) * m = mk - (i0 + i1 + ... +ix)
+ * m =  i出现次数
  */
 
 // @lc code=start
@@ -14,6 +20,12 @@ package leetcode
  *     Left *TreeNode
  *     Right *TreeNode
  * }
+ * sum(j,k) = sum[j] ^ sum[k]
+ * sum[i] ^ sum[j] = sum[j] ^ sum[k] => sum[i] = sum[k]
+ * 与 j 无关, 个数为 k-i
+ * 对于下标 k 所有满足的 i 对结果的贡献为
+ * (k-ix) * m = mk - (i0 + i1 + ... +ix)
+ * m =  i出现次数
  */
 
 type TreeNode struct {
