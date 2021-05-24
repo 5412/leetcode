@@ -24,3 +24,8 @@ func TestIsCousins(t *testing.T) {
 	node3.Right = &node4
 	fmt.Println(isCousins(&root, 1, 3))
 }
+
+func TestStrangePrinter(t *testing.T) {
+	input := "aaabbbcccsdbsadsqrrrrssbq"
+	fmt.Println(strangePrinter(input))
+}
