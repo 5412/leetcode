@@ -34,3 +34,8 @@ func TestReverseParentheses(t *testing.T) {
 	input := "(abcd)"
 	fmt.Println(reverseParentheses(input))
 }
+
+func TestSearch(t *testing.T) {
+	input := []int{1, 3, 5}
+	fmt.Println(search(input, 1))
+}

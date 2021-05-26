@@ -2,7 +2,6 @@ package leetcode
 
 import (
 	"strings"
-	"unsafe"
 )
 
 /*
@@ -65,69 +64,69 @@ import (
  */
 
 // @lc code=start
-// func reverseParentheses(s string) string {
-// 	for {
-// 		if !strings.Contains(s, "(") {
-// 			break
-// 		}
-// 		s = reverseParenthesesHelper(s)
-// 	}
-// 	return s
-// }
-
-// func reverseParenthesesHelper(s string) string {
-// 	left := -1
-// 	right := strings.Index(s, ")")
-// 	if right < 0 {
-// 		return s
-// 	}
-// 	for i := right - 1; i >= 0; i-- {
-// 		if s[i] == '(' {
-// 			left = i
-// 			break
-// 		}
-// 	}
-// 	if left < 0 {
-// 		return s
-// 	}
-// 	bts := []byte(s)
-// 	i, j := left, right
-// 	for i < j {
-// 		bts[i], bts[j] = s[j], s[i]
-// 		i++
-// 		j--
-// 	}
-// 	return strings.Join([]string{string(bts[0:left]), string(bts[left+1 : right]), string(bts[right+1:])}, "")
-// }
-
 func reverseParentheses(s string) string {
-	var stack []int
-	bytes := *(*[]byte)(unsafe.Pointer(&s))
-	for k, v := range s {
-		if v == '(' {
-			stack = append(stack, k)
+	for {
+		if !strings.Contains(s, "(") {
+			break
 		}
-		if v == ')' {
-			left := stack[len(stack)-1]
-			reverseBytes(bytes, left, k)
-			stack = stack[:len(stack)-1]
-		}
+		s = reverseParenthesesHelper(s)
 	}
-	var res strings.Builder
-	for _, v := range bytes {
-		if v != '(' && v != ')' {
-			res.WriteByte(v)
-		}
-	}
-	return res.String()
+	return s
 }
 
-func reverseBytes(arr []byte, i int, k int) {
-	for i < k {
-		arr[i], arr[k] = arr[k], arr[i]
-		i++
-		k--
+func reverseParenthesesHelper(s string) string {
+	left := -1
+	right := strings.Index(s, ")")
+	if right < 0 {
+		return s
 	}
+	for i := right - 1; i >= 0; i-- {
+		if s[i] == '(' {
+			left = i
+			break
+		}
+	}
+	if left < 0 {
+		return s
+	}
+	bts := []byte(s)
+	i, j := left, right
+	for i < j {
+		bts[i], bts[j] = s[j], s[i]
+		i++
+		j--
+	}
+	return strings.Join([]string{string(bts[0:left]), string(bts[left+1 : right]), string(bts[right+1:])}, "")
 }
+
+// func reverseParentheses(s string) string {
+// 	var stack []int
+// 	bytes := *(*[]byte)(unsafe.Pointer(&s))
+// 	for k, v := range s {
+// 		if v == '(' {
+// 			stack = append(stack, k)
+// 		}
+// 		if v == ')' {
+// 			left := stack[len(stack)-1]
+// 			reverseBytes(bytes, left, k)
+// 			stack = stack[:len(stack)-1]
+// 		}
+// 	}
+// 	var res strings.Builder
+// 	for _, v := range bytes {
+// 		if v != '(' && v != ')' {
+// 			res.WriteByte(v)
+// 		}
+// 	}
+// 	return res.String()
+// }
+
+// func reverseBytes(arr []byte, i int, k int) {
+// 	for i < k {
+// 		arr[i], arr[k] = arr[k], arr[i]
+// 		i++
+// 		k--
+// 	}
+// }
 
 // @lc code=end
