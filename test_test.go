@@ -29,3 +29,8 @@ func TestStrangePrinter(t *testing.T) {
 	input := "aaabbbcccsdbsadsqrrrrssbq"
 	fmt.Println(strangePrinter(input))
 }
+
+func TestReverseParentheses(t *testing.T) {
+	input := "(abcd)"
+	fmt.Println(reverseParentheses(input))
+}
