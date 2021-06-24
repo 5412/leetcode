@@ -2,6 +2,7 @@ package leetcode
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -38,4 +39,13 @@ func TestReverseParentheses(t *testing.T) {
 func TestSearch(t *testing.T) {
 	input := []int{1, 3, 5}
 	fmt.Println(search(input, 1))
+}
+
+func TestPermutation(t *testing.T) {
+	input := "abc"
+	expect := []string{"abc", "acb", "bac", "bca", "cab", "cba"}
+	got := permutation(input)
+	if !reflect.DeepEqual(expect, got) {
+		t.Fatalf("permutation err, expect=%v, go=%v", expect, got)
+	}
 }
