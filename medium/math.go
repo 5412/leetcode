@@ -305,11 +305,11 @@ func Divide(dividend int, divisor int) int {
 示例 3:
 输入: numerator = 2, denominator = 3
 输出: "0.(6)"
- */
+*/
 
 func FractionToDecimal(numerator int, denominator int) string {
 	flag := false
-	if (numerator>0 && denominator<0) || (numerator<0 && denominator>0)  {
+	if (numerator > 0 && denominator < 0) || (numerator < 0 && denominator > 0) {
 		flag = true
 	}
 	if numerator < 0 {
@@ -329,14 +329,14 @@ func FractionToDecimal(numerator int, denominator int) string {
 			ini = true
 			break
 		}
-		nums = append(nums, partTwo * 10 / denominator)
+		nums = append(nums, partTwo*10/denominator)
 		m[partTwo] = len(nums) - 1
 		partTwo = partTwo * 10 % denominator
 	}
 	res := strconv.Itoa(partOne)
 	if len(nums) > 0 {
 		res += "."
-		for i:=0; i<len(nums); i++ {
+		for i := 0; i < len(nums); i++ {
 			if ini && i == m[partTwo] {
 				res += "("
 				res += strconv.Itoa(nums[i])
@@ -376,8 +376,8 @@ func fractionToDecimal(numerator int, denominator int) string {
 		tmp = "-"
 	}
 
-	n := numerator/denominator
-	r := numerator%denominator
+	n := numerator / denominator
+	r := numerator % denominator
 	tmp += strconv.Itoa(n)
 	if r == 0 {
 		return tmp
@@ -388,16 +388,16 @@ func fractionToDecimal(numerator int, denominator int) string {
 	m[r] = len(tmp)
 	i := len(tmp)
 	for {
-		numerator = r*10
-		n = numerator/denominator
-		r = numerator%denominator
-		tmp += string(n+'0')
+		numerator = r * 10
+		n = numerator / denominator
+		r = numerator % denominator
+		tmp += string(rune(n + '0'))
 
 		if r == 0 {
 			return tmp
 		}
 
-		v,ok := m[r]
+		v, ok := m[r]
 		if ok {
 			tmp = tmp[0:v] + "(" + tmp[v:] + ")"
 			return tmp

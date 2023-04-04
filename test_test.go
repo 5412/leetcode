@@ -7,7 +7,11 @@ import (
 )
 
 func TestCanCross(t *testing.T) {
-	fmt.Println(canCross([]int{0, 1, 2, 3, 4, 8, 9, 11}))
+	str := "我是谁"
+	for i := 0; i < len(str); i++ {
+		fmt.Printf(`%03o %d
+`, str[i], str[i])
+	}
 }
 
 func TestIsCousins(t *testing.T) {
