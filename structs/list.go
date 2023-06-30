@@ -7,11 +7,11 @@ package structs
 import "fmt"
 
 type ListNode struct {
-	Val int
+	Val  int
 	Next *ListNode
 }
 
-func PrintList(l *ListNode)  {
+func PrintList(l *ListNode) {
 	for l.Next != nil {
 		fmt.Print(l.Val, "-")
 		l = l.Next
@@ -19,13 +19,13 @@ func PrintList(l *ListNode)  {
 	fmt.Println(l.Val)
 }
 
-func GenerateList(vals[]int) *ListNode {
+func GenerateList(vals []int) *ListNode {
 	var result *ListNode
 	var headList *ListNode
-	for _,v := range vals {
-		tempNode := &ListNode{v,nil}
+	for _, v := range vals {
+		tempNode := &ListNode{v, nil}
 		if result == nil {
-			result =tempNode
+			result = tempNode
 			headList = result
 		} else {
 			result.Next = tempNode
@@ -33,4 +33,13 @@ func GenerateList(vals[]int) *ListNode {
 		}
 	}
 	return headList
+}
+
+func GenerateSlice(head *ListNode) []int {
+	res := make([]int, 0)
+	for head != nil {
+		res = append(res, head.Val)
+		head = head.Next
+	}
+	return res
 }
